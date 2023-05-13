@@ -1,0 +1,14 @@
+{
+  "name": "devprofiler",
+  "version": "1.0.0",
+  "author": "이승현 <kubrickcode@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server:express": "cd express && yarn dev",
+    "client": "cd client && yarn dev",
+    "dev": "concurrently --kill-others-on-fail \"yarn server:express\" \"yarn client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1"
+  }
+}
