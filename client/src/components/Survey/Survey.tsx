@@ -16,6 +16,11 @@ const Survey: FC<OwnProps> = ({ type }) => {
     type === "FrontEnd" ? FrontEndSurveyData : BackEndSurveyData;
 
   const [values, setValues] = useState(Array(25).fill(null));
+  const [isComplete, setIsComplete] = useState(false);
+
+  useEffect(() => {
+    setIsComplete(values.every((value) => value !== null) ? true : false);
+  }, [values]);
 
   const setValue = (id: number, value: number) => {
     setValues((values) =>
@@ -27,10 +32,6 @@ const Survey: FC<OwnProps> = ({ type }) => {
       })
     );
   };
-
-  useEffect(() => {
-    console.log(values);
-  }, [values]);
 
   return (
     <div className="w-full h-full flex justify-center">
@@ -45,7 +46,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
             >
               <PrevButton />
             </button>
-            <h4 className="mx-4">{title}</h4>
+            <h4 className="mx-4 dark:text-neutral-300">{title}</h4>
             <button
               className={`${
                 index === 4 ? "hidden" : "block"
@@ -63,7 +64,9 @@ const Survey: FC<OwnProps> = ({ type }) => {
               >
                 {data.map((item) => (
                   <div className="text-center" key={item.id}>
-                    <p className="text-xl my-5">{item.content}</p>
+                    <p className="text-xl my-5 dark:text-neutral-300">
+                      {item.content}
+                    </p>
                     <CustomRadio
                       id={item.id}
                       value={values[item.id - 1]}
@@ -73,6 +76,24 @@ const Survey: FC<OwnProps> = ({ type }) => {
                 ))}
               </div>
             ))}
+            <button
+              className={`${
+                index === 4 ? "hidden" : "block"
+              } border rounded-full pr-2 p-2 my-5 text-white bg-blue-400 hover:bg-blue-500`}
+              onClick={() => setPage(index + 1)}
+            >
+              다음
+            </button>
+            <button
+              className={`${
+                index === 4 ? "block" : "hidden"
+              } border rounded-full p-2 my-5 text-white ${
+                isComplete ? "bg-blue-400" : "bg-neutral-200"
+              }`}
+              disabled={!isComplete}
+            >
+              완료
+            </button>
           </div>
         </div>
       ))}
@@ -84,7 +105,7 @@ const PrevButton = () => {
   return (
     <svg
       aria-hidden="true"
-      className="w-7 h-7 mr-2"
+      className="w-7 h-7 mr-2 dark:text-neutral-300"
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +123,7 @@ const NextButton = () => {
   return (
     <svg
       aria-hidden="true"
-      className="w-7 h-7 ml-2"
+      className="w-7 h-7 ml-2 dark:text-neutral-300"
       fill="currentColor"
       viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
