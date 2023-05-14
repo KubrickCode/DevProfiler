@@ -4,30 +4,30 @@ import { BackEndSurveyData, BackEndSurveyTitle } from "./SurveyData/BackEnd";
 import { FrontEndSurveyData } from "./SurveyData/FrontEnd";
 import CustomRadio from "./CustomRadio";
 import Evaluation from "./Evaluation";
+import { useSurveyStore } from "../../store/SurveyStore";
 
-interface OwnProps {
-  type: string;
-}
+const Survey: FC = () => {
+  const surveyType = useSurveyStore((state) => state.surveyType);
+  const surveyResponse = useSurveyStore((state) => state.surveyResponse);
+  const setSurveyResponse = useSurveyStore((state) => state.setSurveyResponse);
 
-const Survey: FC<OwnProps> = ({ type }) => {
   const [page, setPage] = useState(0);
   const [surveyCompleted, setSurveyCompleted] = useState(false);
   const titleList =
-    type === "FrontEnd" ? FrontEndSurveyTitle : BackEndSurveyTitle;
+    surveyType === "FrontEnd" ? FrontEndSurveyTitle : BackEndSurveyTitle;
   const surveyData =
-    type === "FrontEnd" ? FrontEndSurveyData : BackEndSurveyData;
+    surveyType === "FrontEnd" ? FrontEndSurveyData : BackEndSurveyData;
 
-  const [values, setValues] = useState(Array(25).fill(-1));
   const [isComplete, setIsComplete] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
-    setIsComplete(values.every((value) => value !== -1) ? true : false);
-  }, [values]);
+    setIsComplete(surveyResponse.every((value) => value !== -1) ? true : false);
+  }, [surveyResponse]);
 
   const setValue = (id: number, value: number) => {
-    setValues((values) =>
-      values.map((item, index) => {
+    setSurveyResponse(
+      surveyResponse.map((item, index) => {
         if (index === id - 1) {
           return value;
         }
@@ -75,7 +75,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
                       </p>
                       <CustomRadio
                         id={item.id}
-                        value={values[item.id - 1]}
+                        value={surveyResponse[item.id - 1]}
                         setValue={setValue}
                       />
                     </div>
@@ -112,7 +112,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
           </div>
         ))
       ) : (
-        <Evaluation values={values} type={type} />
+        <Evaluation values={surveyResponse} type={surveyType} />
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { stagger, useAnimate, animate } from "framer-motion";
 import { FC } from "react";
+import { useSurveyStore } from "../../../store/SurveyStore";
 
 const randomNumberBetween = (min: number, max: number) => {
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -9,10 +10,11 @@ type AnimationSequence = Parameters<typeof animate>[0];
 
 interface OwnProps {
   type: string;
-  startSurvey(type: string): void;
 }
 
-const SelectTypeButton: FC<OwnProps> = ({ type, startSurvey }) => {
+const SelectTypeButton: FC<OwnProps> = ({ type }) => {
+  const setSurveyState = useSurveyStore((state) => state.setSurveyState);
+  const setSurveyType = useSurveyStore((state) => state.setSurveyType);
   const [scope, animate] = useAnimate();
 
   const title =
@@ -21,6 +23,7 @@ const SelectTypeButton: FC<OwnProps> = ({ type, startSurvey }) => {
       : ["백", "엔", "드", " ", "역", "량", "검", "사"];
 
   const onButtonClick = () => {
+    setSurveyType(type as "FrontEnd" | "BackEnd");
     const sparkles = Array.from({ length: 20 });
     const sparklesAnimation: AnimationSequence = sparkles.map((_, index) => [
       `.sparkle-${index}`,
@@ -70,7 +73,7 @@ const SelectTypeButton: FC<OwnProps> = ({ type, startSurvey }) => {
     ]);
 
     setTimeout(() => {
-      startSurvey(type);
+      setSurveyState(true);
     }, 1000);
   };
 
