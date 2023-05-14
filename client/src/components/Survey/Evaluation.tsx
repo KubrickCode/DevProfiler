@@ -41,18 +41,23 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
 
   return (
     <div className="max-w-[70%]">
-      <div className="text-2xl dark:text-neutral-300 text-center">
-        <span className="mr-2">
+      <div className="text-2xl text-center">
+        <span className="mr-2 font-extrabold dark:text-neutral-100">
           {calculateCompetency(values).totalScore}점!
         </span>
-        <span>당신은 {calculateCompetency(values).competency}</span>
+        <span className="dark:text-neutral-200">
+          당신은 {calculateCompetency(values).competency}
+        </span>
       </div>
       <p className="text-center dark:text-neutral-200 mb-5 mt-2">
         아래 각 항목을 클릭해서 피드백을 읽어보세요
       </p>
       <div>
         {titleList.map((item, index) => (
-          <div className="border px-4 py-3 my-3 rounded-xl" key={index}>
+          <div
+            className="border px-4 py-3 my-3 rounded-xl dark:bg-neutral-600 transition-all hover:scale-[1.03] dark:border-neutral-600 hover:bg-neutral-100 "
+            key={index}
+          >
             <button
               className="flex justify-between w-full"
               onClick={() => {

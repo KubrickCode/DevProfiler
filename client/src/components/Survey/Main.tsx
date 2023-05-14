@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import SelectType from "./SelectType";
+import SelectType from "./SelectType/SelectType";
 import Survey from "./Survey";
 
 const Main: FC = () => {

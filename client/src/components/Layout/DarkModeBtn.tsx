@@ -6,9 +6,11 @@ const DarkModeBtn: FC = () => {
   const theme = usePersistStore((state) => state.theme);
   const toggleTheme = usePersistStore((state) => state.toggleTheme);
   useEffect(() => {
-    document.body.classList[theme === "dark" ? "add" : "remove"]("dark");
+    document.documentElement.classList[theme === "dark" ? "add" : "remove"](
+      "dark"
+    );
     const backgroundColor = theme === "dark" ? "hsl(0, 0%, 20%)" : "#fff";
-    document.body.style.backgroundColor = backgroundColor;
+    document.documentElement.style.backgroundColor = backgroundColor;
   }, [theme]);
 
   return (

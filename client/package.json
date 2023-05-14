@@ -13,8 +13,10 @@
     "@anatoliygatt/dark-mode-toggle": "^1.0.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
+    "framer-motion": "^10.12.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-st-modal": "^1.1.3",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

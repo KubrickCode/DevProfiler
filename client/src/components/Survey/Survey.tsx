@@ -19,6 +19,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
 
   const [values, setValues] = useState(Array(25).fill(-1));
   const [isComplete, setIsComplete] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
     setIsComplete(values.every((value) => value !== -1) ? true : false);
@@ -44,7 +45,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
               <button
                 className={`${
                   index === 0 ? "hidden" : "block"
-                } border rounded-full pl-2`}
+                } border rounded-full px-1 transition-all hover:scale-125 hover:bg-neutral-100 dark:bg-neutral-300`}
                 onClick={() => setPage(index - 1)}
               >
                 <PrevButton />
@@ -53,7 +54,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
               <button
                 className={`${
                   index === 4 ? "hidden" : "block"
-                } border rounded-full pr-2`}
+                } border rounded-full px-1 transition-all hover:scale-125 hover:bg-neutral-100 dark:bg-neutral-300`}
                 onClick={() => setPage(index + 1)}
               >
                 <NextButton />
@@ -69,7 +70,7 @@ const Survey: FC<OwnProps> = ({ type }) => {
                 >
                   {data.map((item) => (
                     <div className="text-center" key={item.id}>
-                      <p className="text-xl my-5 dark:text-neutral-300">
+                      <p className="text-xl my-10 dark:text-neutral-300">
                         {item.content}
                       </p>
                       <CustomRadio
@@ -84,21 +85,28 @@ const Survey: FC<OwnProps> = ({ type }) => {
               <button
                 className={`${
                   index === 4 ? "hidden" : "block"
-                } border rounded-full pr-2 p-2 my-5 text-white bg-blue-400 hover:bg-blue-500`}
-                onClick={() => setPage(index + 1)}
+                } border-blue-400 rounded-full pr-2 p-2 my-5 text-white bg-blue-400 hover:bg-blue-500 transition-all hover:scale-105`}
+                onClick={() => {
+                  setPage(index + 1);
+                  window.scrollTo(0, 0);
+                }}
               >
                 다음
               </button>
               <button
                 className={`${
                   index === 4 ? "block" : "hidden"
-                } border rounded-full p-2 my-5 text-white ${
-                  isComplete ? "bg-blue-400" : "bg-neutral-200"
+                } relative border-blue-400 rounded-full p-2 my-5 text-white transition-all hover:scale-105 ${
+                  isComplete
+                    ? "bg-blue-400 hover:bg-blue-500"
+                    : "bg-neutral-200 cursor-not-allowed"
                 }`}
-                disabled={!isComplete}
-                onClick={() => setSurveyCompleted(true)}
+                onClick={() => isComplete && setSurveyCompleted(true)}
+                onMouseOver={() => setShowTooltip(true)}
+                onMouseLeave={() => setShowTooltip(false)}
               >
                 완료
+                <Tooltip show={!isComplete && showTooltip} />
               </button>
             </div>
           </div>
@@ -113,17 +121,18 @@ const Survey: FC<OwnProps> = ({ type }) => {
 const PrevButton = () => {
   return (
     <svg
-      aria-hidden="true"
-      className="w-7 h-7 mr-2 dark:text-neutral-300"
-      fill="currentColor"
-      viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-7 h-7"
     >
       <path
-        fillRule="evenodd"
-        d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
-        clipRule="evenodd"
-      ></path>
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+      />
     </svg>
   );
 };
@@ -131,18 +140,35 @@ const PrevButton = () => {
 const NextButton = () => {
   return (
     <svg
-      aria-hidden="true"
-      className="w-7 h-7 ml-2 dark:text-neutral-300"
-      fill="currentColor"
-      viewBox="0 0 20 20"
       xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-7 h-7"
     >
       <path
-        fillRule="evenodd"
-        d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-        clipRule="evenodd"
-      ></path>
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"
+      />
     </svg>
+  );
+};
+
+interface TooltipProps {
+  show: boolean;
+}
+
+const Tooltip: FC<TooltipProps> = ({ show }) => {
+  return (
+    <div
+      className={`${
+        !show && "hidden"
+      } absolute top-[-100%] right-0 bg-blue-400 text-white py-1 px-2 rounded `}
+    >
+      아직 체크하지 않은 항목이 있습니다
+    </div>
   );
 };
 
