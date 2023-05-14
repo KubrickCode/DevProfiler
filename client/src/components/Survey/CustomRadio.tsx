@@ -15,33 +15,33 @@ const CustomRadio: FC<CustomRadioProps> = ({ id, value, setValue }) => {
       <div className="mt-5 w-full">
         <button
           className={`w-8 h-8 lg:w-14 lg:h-14 border rounded-full mx-4 hover:bg-rose-300 ${
-            value === 1 && "bg-rose-400"
+            value === 0 && "bg-rose-400"
+          }`}
+          onClick={() => setValue(id, 0)}
+        ></button>
+        <button
+          className={`w-6 h-6 lg:w-12 lg:h-12 border rounded-full mx-4 hover:bg-rose-100 ${
+            value === 1 && "bg-rose-200"
           }`}
           onClick={() => setValue(id, 1)}
         ></button>
         <button
-          className={`w-6 h-6 lg:w-12 lg:h-12 border rounded-full mx-4 hover:bg-rose-100 ${
-            value === 2 && "bg-rose-200"
+          className={`w-5 h-5 lg:w-10 lg:h-10 border rounded-full mx-4 hover:bg-stone-100 ${
+            value === 2 && "bg-stone-300"
           }`}
           onClick={() => setValue(id, 2)}
         ></button>
         <button
-          className={`w-5 h-5 lg:w-10 lg:h-10 border rounded-full mx-4 hover:bg-stone-100 ${
-            value === 3 && "bg-stone-300"
+          className={`w-6 h-6 lg:w-12 lg:h-12 border rounded-full mx-4 hover:bg-indigo-100 ${
+            value === 3 && "bg-indigo-200"
           }`}
           onClick={() => setValue(id, 3)}
         ></button>
         <button
-          className={`w-6 h-6 lg:w-12 lg:h-12 border rounded-full mx-4 hover:bg-indigo-100 ${
-            value === 4 && "bg-indigo-200"
+          className={`w-8 h-8 lg:w-14 lg:h-14 border rounded-full mx-4 hover:bg-indigo-300 ${
+            value === 4 && "bg-indigo-400"
           }`}
           onClick={() => setValue(id, 4)}
-        ></button>
-        <button
-          className={`w-8 h-8 lg:w-14 lg:h-14 border rounded-full mx-4 hover:bg-indigo-300 ${
-            value === 5 && "bg-indigo-400"
-          }`}
-          onClick={() => setValue(id, 5)}
         ></button>
       </div>
       <span className="absolute top-0 right-1 dark:text-neutral-300">
