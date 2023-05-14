@@ -3,7 +3,11 @@ import { User } from "../db.type";
 const prisma = new PrismaClient();
 
 class UserRepository {
-  async create(user: User) {
+  async getUserByEmail(email: string) {
+    return await prisma.user.findFirst({ where: { email } });
+  }
+
+  async create(user: Omit<User, "id">) {
     return await prisma.user.create({
       data: user,
     });

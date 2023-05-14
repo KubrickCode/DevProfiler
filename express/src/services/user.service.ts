@@ -1,12 +1,21 @@
 import { hashPassword } from "../integrations/handlePassword";
 import { User } from "../db/db.type";
 import userRepository from "../db/repository/user.repository";
+import { loginAuthenticate } from "../integrations/handleLogin";
 
 class UserService {
+  async login(email: string, password: string) {
+    return await loginAuthenticate(email, password);
+  }
+
   async createUserService(user: User) {
     const { email, password } = user;
     const hashedPassword = await hashPassword(password);
-    await userRepository.create({ email, password: hashedPassword });
+    await userRepository.create({
+      email,
+      password: hashedPassword,
+    });
+    return await loginAuthenticate(email, password);
   }
 
   async updateUserService(id: number, password: string) {
