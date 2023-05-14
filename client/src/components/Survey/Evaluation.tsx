@@ -3,8 +3,7 @@ import { BackEndSurveyData, BackEndSurveyTitle } from "./SurveyData/BackEnd";
 import { FrontEndSurveyData, FrontEndSurveyTitle } from "./SurveyData/FrontEnd";
 import { frontEndfeedback } from "./SurveyData/FronEndFeedbacks";
 import { backEndfeedback } from "./SurveyData/BackEndFeedbacks";
-import { CustomDialog } from "react-st-modal";
-import Auth from "../Modal/Auth/Auth";
+import { useModalStore } from "../../store/ModalStore";
 
 interface ownProps {
   values: number[];
@@ -12,6 +11,7 @@ interface ownProps {
 }
 
 const Evaluation: FC<ownProps> = ({ values, type }) => {
+  const setModalState = useModalStore((state) => state.setModalState);
   const [open, setOpen] = useState(Array(5).fill(false));
 
   const titleList =
@@ -102,9 +102,7 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
         ))}
         <button
           className="w-full text-center border px-4 py-3 my-3 rounded-xl bg-blue-500 hover:bg-blue-400 text-white dark:bg-neutral-600 transition-all hover:scale-[1.03] dark:border-neutral-600"
-          onClick={async () => {
-            await CustomDialog(<Auth />);
-          }}
+          onClick={() => setModalState(true)}
         >
           💥 로그인하고 저장하기 💥
         </button>

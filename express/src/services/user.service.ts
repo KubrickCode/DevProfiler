@@ -10,6 +10,8 @@ class UserService {
 
   async createUserService(user: User) {
     const { email, password } = user;
+    const isExistUser = await userRepository.getUserByEmail(email);
+    if (isExistUser) return { message: "이미 존재하는 이메일입니다" };
     const hashedPassword = await hashPassword(password);
     await userRepository.create({
       email,

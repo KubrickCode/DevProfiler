@@ -11,3 +11,8 @@ export interface SurveyStoreType {
   setSurveyType(surveyType: "FrontEnd" | "BackEnd"): void;
   setSurveyResponse(surveyResponse: number[]): void;
 }
+
+export interface ModalStoreType {
+  modalState: boolean;
+  setModalState(modalState: boolean): void;
+}
