@@ -2,7 +2,7 @@ import { FC } from "react";
 import DarkModeBtn from "./DarkModeBtn";
 import { usePersistStore } from "../../store/GlobalStore";
 import { CustomDialog } from "react-st-modal";
-import Auth from "../Modal/Auth";
+import Auth from "../Modal/Auth/Auth";
 
 const Header: FC = () => {
   const theme = usePersistStore((state) => state.theme);
@@ -44,10 +44,7 @@ const Header: FC = () => {
             isLogin ? "hidden" : "inline"
           } py-2.5 px-5 mr-2 text-sm font-medium text-neutral-900 focus:outline-none bg-white rounded-full border border-neutral-200 hover:bg-neutral-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-600 dark:hover:text-white dark:hover:bg-neutral-700`}
           onClick={async () => {
-            await CustomDialog(<Auth />, {
-              title: "로그인/회원가입",
-              showCloseIcon: true,
-            });
+            await CustomDialog(<Auth />);
           }}
         >
           로그인
