@@ -81,14 +81,14 @@ const SelectTypeButton: FC<OwnProps> = ({ type }) => {
     <div ref={scope} className="w-full">
       <button
         onClick={onButtonClick}
-        className="relative rounded-3xl border-4 border-blue-300 px-6 py-4 text-2xl text-blue-600 transition-colors hover:bg-blue-300 w-full dark:border-blue-400 dark:bg-blue-400 dark:hover:bg-blue-500"
+        className="relative rounded-3xl border-4 border-blue-400 px-6 py-4 text-2xl bg-blue-400 transition-colors hover:bg-blue-500 hover:border-blue-500 w-full"
       >
         <span className="sr-only ">Motion</span>
         <span className="block h-8 overflow-hidden " aria-hidden>
           {title.map((letter, index) => (
             <span
               data-letter={letter}
-              className="letter relative inline-block h-7 leading-7 after:absolute after:left-0 after:top-full after:h-8 after:content-[attr(data-letter)] text-neutral-600 dark:text-white"
+              className="letter relative inline-block h-7 leading-7 after:absolute after:left-0 after:top-full after:h-8 after:content-[attr(data-letter)] text-white"
               key={`${letter}-${index}`}
             >
               {letter}

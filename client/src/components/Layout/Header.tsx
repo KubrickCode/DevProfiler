@@ -43,7 +43,7 @@ const Header: FC = () => {
           type="button"
           className={`${
             isLogin ? "hidden" : "inline"
-          } py-2.5 px-5 mr-2 text-sm font-medium text-neutral-900 focus:outline-none bg-white rounded-full border border-neutral-200 hover:bg-neutral-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-700 dark:bg-neutral-800 dark:text-neutral-400 dark:border-neutral-600 dark:hover:text-white dark:hover:bg-neutral-700`}
+          } py-2.5 px-5 mr-2 text-sm font-medium text-neutral-900 focus:outline-none bg-white rounded-full border border-neutral-200 hover:bg-neutral-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:text-white dark:hover:bg-neutral-700`}
           onClick={() => setModalState(true)}
         >
           로그인

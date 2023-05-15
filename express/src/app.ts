@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import "express-async-errors";
 
-const app = express();
+export const app = express();
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
@@ -19,4 +19,12 @@ app.use(((err, req, res, next) => {
     .json({ message: err.message || "서버 실행 오류" });
 }) as ErrorRequestHandler);
 
-app.listen(3001, () => console.log("Express 서버 실행 완료"));
+export const startServer = () => {
+  return app.listen(3001, () => console.log("3001번 포트에서 Express 실행"));
+};
+
+if (process.env.NODE_ENV !== "test") {
+  startServer();
+}
+
+export default app;

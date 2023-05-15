@@ -8,7 +8,7 @@ class UserService {
     return await loginAuthenticate(email, password);
   }
 
-  async createUserService(user: User) {
+  async createUserService(user: Omit<User, "id">) {
     const { email, password } = user;
     const isExistUser = await userRepository.getUserByEmail(email);
     if (isExistUser) return { message: "이미 존재하는 이메일입니다" };
