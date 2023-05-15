@@ -9,7 +9,7 @@ const surveyStore: StateCreator<SurveyStoreType> = (set) => ({
     -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
     -1, -1, -1, -1, -1, -1,
   ],
-  setSurveyState: (surveyState: boolean) =>
+  setSurveyState: (surveyState: boolean | "complete") =>
     set((state) => ({ ...state, surveyState })),
   setSurveyType: (surveyType: "FrontEnd" | "BackEnd") =>
     set((state) => ({ ...state, surveyType })),

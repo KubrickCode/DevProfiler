@@ -5,11 +5,17 @@ import { FrontEndSurveyData } from "./SurveyData/FrontEnd";
 import CustomRadio from "./CustomRadio";
 import Evaluation from "./Evaluation";
 import { useSurveyStore } from "../../store/SurveyStore";
+import { useQueryMutate } from "../../hooks/useQueryFetch";
 
 const Survey: FC = () => {
   const surveyType = useSurveyStore((state) => state.surveyType);
   const surveyResponse = useSurveyStore((state) => state.surveyResponse);
   const setSurveyResponse = useSurveyStore((state) => state.setSurveyResponse);
+  const setSurveyState = useSurveyStore((state) => state.setSurveyState);
+
+  const isLogin = localStorage.getItem("token") ? true : false;
+
+  const { mutate } = useQueryMutate("/survey", "post");
 
   const [page, setPage] = useState(0);
   const [surveyCompleted, setSurveyCompleted] = useState(false);
@@ -34,6 +40,20 @@ const Survey: FC = () => {
         return item;
       })
     );
+  };
+
+  const onComplete = async () => {
+    setSurveyState("complete");
+    if (isLogin) {
+      mutate({
+        body: {
+          category: surveyType,
+          response: surveyResponse,
+        },
+      });
+    }
+
+    isComplete && setSurveyCompleted(true);
   };
 
   return (
@@ -101,7 +121,7 @@ const Survey: FC = () => {
                     ? "bg-blue-400 hover:bg-blue-500"
                     : "bg-neutral-200 cursor-not-allowed"
                 }`}
-                onClick={() => isComplete && setSurveyCompleted(true)}
+                onClick={onComplete}
                 onMouseOver={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
               >

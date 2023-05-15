@@ -2,21 +2,39 @@ import { FC, useState } from "react";
 import { useModalStore } from "../../../store/ModalStore";
 import { useSign } from "../../../hooks/useSign";
 import { AxiosError } from "axios";
+import { useSurveyStore } from "../../../store/SurveyStore";
+import { useQueryMutate } from "../../../hooks/useQueryFetch";
 
 const Login: FC = () => {
   const setModalState = useModalStore((state) => state.setModalState);
-  const { mutate } = useSign("/user/login");
+  const surveyState = useSurveyStore((state) => state.surveyState);
+  const surveyResponse = useSurveyStore((state) => state.surveyResponse);
+  const surveyType = useSurveyStore((state) => state.surveyType);
+  const { mutate: login } = useSign("/user/login");
+  const { mutate: setResponse } = useQueryMutate("/survey", "post");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errMsg, setErrMsg] = useState(null);
 
   const onSubmit = async () => {
-    mutate(
+    login(
       { body: { email, password } },
       {
         onSuccess: (data) => {
-          console.log(data);
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          if (surveyState === "complete") {
+            setResponse({
+              body: {
+                category: surveyType,
+                response: surveyResponse,
+              },
+            });
+            location.href = "/my-page";
+          } else {
+            location.href = "/";
+          }
         },
         onError: (err) => {
           if (err instanceof AxiosError) setErrMsg(err.response?.data);

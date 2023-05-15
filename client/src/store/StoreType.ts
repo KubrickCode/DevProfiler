@@ -4,10 +4,10 @@ export interface PersistStoreType {
 }
 
 export interface SurveyStoreType {
-  surveyState: boolean;
+  surveyState: boolean | "complete";
   surveyType: "FrontEnd" | "BackEnd";
   surveyResponse: number[];
-  setSurveyState(surveyState: boolean): void;
+  setSurveyState(surveyState: boolean | "complete"): void;
   setSurveyType(surveyType: "FrontEnd" | "BackEnd"): void;
   setSurveyResponse(surveyResponse: number[]): void;
 }

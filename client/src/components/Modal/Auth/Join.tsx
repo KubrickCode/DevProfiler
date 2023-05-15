@@ -2,6 +2,8 @@ import { FC, useEffect, useState } from "react";
 import { useSign } from "../../../hooks/useSign";
 import { useModalStore } from "../../../store/ModalStore";
 import { AxiosError } from "axios";
+import { useSurveyStore } from "../../../store/SurveyStore";
+import { useQueryMutate } from "../../../hooks/useQueryFetch";
 
 const Join: FC = () => {
   const setModalState = useModalStore((state) => state.setModalState);
@@ -16,7 +18,12 @@ const Join: FC = () => {
   const [isValid, setIsValid] = useState(false);
   const [errMsg, setErrMsg] = useState(null);
 
-  const { mutate } = useSign("/user");
+  const surveyState = useSurveyStore((state) => state.surveyState);
+  const surveyResponse = useSurveyStore((state) => state.surveyResponse);
+  const surveyType = useSurveyStore((state) => state.surveyType);
+
+  const { mutate: join } = useSign("/user");
+  const { mutate: setResponse } = useQueryMutate("/survey", "post");
 
   useEffect(() => {
     const regEmail = RegExp(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
@@ -39,12 +46,26 @@ const Join: FC = () => {
   const inValidStyle = "outline-red-500 border-red-500";
 
   const onSubmit = async () => {
-    mutate(
+    join(
       {
         body: { email, password },
       },
       {
-        onSuccess: (data) => console.log(data),
+        onSuccess: (data) => {
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("refreshToken", data.refreshToken);
+          if (surveyState === "complete") {
+            setResponse({
+              body: {
+                category: surveyType,
+                response: surveyResponse,
+              },
+            });
+            location.href = "/my-page";
+          } else {
+            location.href = "/";
+          }
+        },
         onError: (err) => {
           if (err instanceof AxiosError) setErrMsg(err.response?.data);
         },
