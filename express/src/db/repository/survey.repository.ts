@@ -3,9 +3,9 @@ import { Survey } from "../db.type";
 const prisma = new PrismaClient();
 
 class SurveyRepository {
-  async create(survey: Survey) {
+  async create(user_id: number, category: string, response: number[]) {
     return await prisma.survey.create({
-      data: survey,
+      data: { user_id, category, response },
     });
   }
 
@@ -15,7 +15,7 @@ class SurveyRepository {
     });
   }
 
-  async getAll(user_id: number) {
+  async get(user_id: number) {
     return await prisma.survey.findMany({
       where: { user_id },
     });

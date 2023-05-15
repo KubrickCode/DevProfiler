@@ -30,16 +30,20 @@ describe("UserRepository", () => {
   });
 
   it("updateUserRepository", async () => {
-    const mockUser = { id: 32, password: "test1234!@" };
+    const mockUser = { id: 35, password: "test1234!@" };
     const result = await UserRepository.update(mockUser.id, mockUser.password);
 
-    expect(result.email).toEqual("wera@qwe.qwe");
+    expect(result).toEqual({
+      email: "test@test.com",
+      id: mockUser.id,
+      password: mockUser.password,
+    });
   });
 
   it("deleteUserRepository", async () => {
-    const mockUserId = 34;
+    const mockUserId = 35;
     const result = await UserRepository.delete(mockUserId);
 
-    expect(result.email).toEqual("test@test.com");
+    expect(result.id).toEqual(mockUserId);
   });
 });

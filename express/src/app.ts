@@ -2,13 +2,17 @@ import express, { ErrorRequestHandler } from "express";
 import router from "./routes";
 import cors from "cors";
 import helmet from "helmet";
+import { initializePassport } from "./middlewares/passport";
 import "express-async-errors";
 
 export const app = express();
+const passport = initializePassport();
+
 app.use(cors());
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(passport.initialize());
 
 app.use("/api", router);
 

@@ -1,11 +1,24 @@
 import { hashPassword } from "../integrations/handlePassword";
 import { User } from "../db/db.type";
 import userRepository from "../db/repository/user.repository";
-import { loginAuthenticate } from "../integrations/handleLogin";
+import {
+  loginAuthenticate,
+  verifyRefreshToken,
+} from "../integrations/handleLogin";
 
 class UserService {
-  async login(email: string, password: string) {
+  async getUserService(_email: string) {
+    const result = await userRepository.getUserByEmail(_email);
+    const { id, email } = result as User;
+    return { id, email };
+  }
+
+  async loginService(email: string, password: string) {
     return await loginAuthenticate(email, password);
+  }
+
+  async refreshTokenService(refreshToken: string) {
+    return await verifyRefreshToken(refreshToken);
   }
 
   async createUserService(user: Omit<User, "id">) {
@@ -22,11 +35,11 @@ class UserService {
 
   async updateUserService(id: number, password: string) {
     const hashedPassword = await hashPassword(password);
-    await userRepository.update(id, hashedPassword);
+    return await userRepository.update(id, hashedPassword);
   }
 
   async deleteUserService(id: number) {
-    await userRepository.delete(id);
+    return await userRepository.delete(id);
   }
 }
 
