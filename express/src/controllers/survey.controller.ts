@@ -6,10 +6,12 @@ export const createSurveyController = async (req: Request, res: Response) => {
 };
 
 export const deleteSurveyController = async (req: Request, res: Response) => {
-  await serveyService.deleteSurveyService(Number(req.params.id));
+  await serveyService.deleteSurveyService(req.params.id as number);
 };
 
 export const getAllSurveyController = async (req: Request, res: Response) => {
-  const result = await serveyService.getAllSurveyService(Number(req.params.id));
+  const result = await serveyService.getAllSurveyService(
+    req.params.id as number
+  );
   res.json(result);
 };

@@ -21,9 +21,12 @@ export const createUserController = async (req: Request, res: Response) => {
 };
 
 export const updateUserController = async (req: Request, res: Response) => {
-  await userService.updateUserService(Number(req.params.id), req.body.password);
+  await userService.updateUserService(
+    req.params.id as number,
+    req.body.password
+  );
 };
 
 export const deleteUserController = async (req: Request, res: Response) => {
-  await userService.deleteUserService(Number(req.params.id));
+  await userService.deleteUserService(req.params.id as number);
 };
