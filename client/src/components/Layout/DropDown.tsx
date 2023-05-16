@@ -1,6 +1,7 @@
 import { FC, useRef, useEffect } from "react";
 import { useQueryGet } from "../../hooks/useQueryFetch";
 import { Link } from "react-router-dom";
+import { useSettingModalStore } from "../../store/ModalStore";
 
 interface ownProps {
   open: boolean;
@@ -12,6 +13,10 @@ const DropDown: FC<ownProps> = ({ open, setOpen, buttonRef }) => {
   const isLogin = localStorage.getItem("token") ? true : false;
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data } = useQueryGet("/user", "getUser", { enabled: !!isLogin });
+
+  const setSettingModalState = useSettingModalStore(
+    (state) => state.setSettingModalState
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -53,7 +58,10 @@ const DropDown: FC<ownProps> = ({ open, setOpen, buttonRef }) => {
             </Link>
           </li>
           <li>
-            <button className="w-full px-4 py-2 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-600">
+            <button
+              className="w-full px-4 py-2 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-600"
+              onClick={() => setSettingModalState(true)}
+            >
               설정
             </button>
           </li>

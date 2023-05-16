@@ -17,6 +17,11 @@ export interface AuthModalStoreType {
   setAuthModalState(authModalState: boolean): void;
 }
 
+export interface SettingModalStoreType {
+  settingModalState: boolean;
+  setSettingModalState(settingModalState: boolean): void;
+}
+
 export interface ConfirmModalStoreType {
   confirmModalState: boolean;
   confirmType: string;

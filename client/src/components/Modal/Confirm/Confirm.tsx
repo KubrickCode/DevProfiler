@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { useConfirmModalStore } from "../../../store/ModalStore";
 import UpdateSurvey from "./UpdateSurvey";
-import DeleteSurvey from "./deleteSurvey";
+import DeleteSurvey from "./DeleteSurvey";
 
 const Confirm: FC = () => {
   const confirmModalState = useConfirmModalStore(
