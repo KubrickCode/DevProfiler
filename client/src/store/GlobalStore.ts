@@ -3,7 +3,7 @@ import { devtools, persist } from "zustand/middleware";
 import { PersistStoreType } from "./StoreType";
 
 const persistStore: StateCreator<PersistStoreType> = (set) => ({
-  theme: "dark",
+  theme: "light",
   toggleTheme: () =>
     set((state) => ({ theme: state.theme === "dark" ? "light" : "dark" })),
 });

@@ -1,6 +1,8 @@
 // user.repository.test.ts
 import { startServer } from "../../app";
 import UserRepository from "../../db/repository/user.repository";
+import { deleteUserRepositorySuccess } from "./user/deleteUser.repository.helper";
+import { updateUserRepositorySuccess } from "./user/updateUser.repository.helper";
 
 describe("UserRepository", () => {
   let server: any;
@@ -13,11 +15,19 @@ describe("UserRepository", () => {
     server.close(done);
   });
 
+  describe("updateUserRepository", () => {
+    it("updateUserRepositorySuccess", updateUserRepositorySuccess);
+  });
+
+  describe("deleteUserRepository", () => {
+    it("deleteUserRepositorySuccess", deleteUserRepositorySuccess);
+  });
+
   it("getUserByEmailRepository", async () => {
-    const mockEmail = "wera@qwe.qwe";
+    const mockEmail = "test@gmail.com";
     const user = await UserRepository.getUserByEmail(mockEmail);
 
-    expect(user?.id).toEqual(32);
+    expect(user?.id).toEqual(42);
     expect(user?.email).toEqual(mockEmail);
   });
 

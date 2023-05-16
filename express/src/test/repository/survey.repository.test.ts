@@ -1,6 +1,8 @@
 // user.repository.test.ts
 import surveyRepository from "../../db/repository/survey.repository";
 import { startServer } from "../../app";
+import { updateSurveyRepositorySuccess } from "./survey/updateSurvey.repository.helper";
+import { deleteSurveyRepositorySuccess } from "./survey/deleteSurvey.repository.helper";
 
 describe("SurveyRepository", () => {
   let server: any;
@@ -15,7 +17,7 @@ describe("SurveyRepository", () => {
 
   it("createSurveyRepository", async () => {
     const mockData = {
-      user_id: 39,
+      user_id: 42,
       category: "FrontEnd",
       response: [
         1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4,
@@ -40,9 +42,17 @@ describe("SurveyRepository", () => {
     expect(result[0].user_id).toEqual(mockUserId);
   });
 
-  it.only("deleteSurveyRepository", async () => {
+  it("deleteSurveyRepository", async () => {
     const mockId = 4;
     const result = await surveyRepository.delete(mockId);
     expect(result.id).toEqual(mockId);
+  });
+
+  describe("updateSurveyRepository", () => {
+    it("updateSurveyRepositorySuccess", updateSurveyRepositorySuccess);
+  });
+
+  describe("deleteSurveyRepository", () => {
+    it("deleteSurveyRepositorySuccess", deleteSurveyRepositorySuccess);
   });
 });

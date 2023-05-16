@@ -56,3 +56,15 @@ export const deleteUserController = async (req: Request, res: Response) => {
     res.status(201).json({ message: "유저 삭제 성공" });
   }
 };
+
+export const checkPasswordController = async (req: Request, res: Response) => {
+  const result = await userService.checkPasswordService(
+    req.user?.email as string,
+    req.body.password
+  );
+  if (result) {
+    res.status(201).json({ message: "비밀번호 확인 성공" });
+  } else {
+    res.status(404).json({ message: "기존 비밀번호를 확인하세요" });
+  }
+};

@@ -1,12 +1,14 @@
 import { FC, useEffect, useState } from "react";
 import { useSign } from "../../../hooks/useSign";
-import { useModalStore } from "../../../store/ModalStore";
+import { useAuthModalStore } from "../../../store/ModalStore";
 import { AxiosError } from "axios";
 import { useSurveyStore } from "../../../store/SurveyStore";
 import { useQueryMutate } from "../../../hooks/useQueryFetch";
 
 const Join: FC = () => {
-  const setModalState = useModalStore((state) => state.setModalState);
+  const setAuthModalState = useAuthModalStore(
+    (state) => state.setAuthModalState
+  );
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -75,9 +77,13 @@ const Join: FC = () => {
 
   return (
     <form>
-      <h1 className="text-center text-xl font-bold mb-5">회원가입</h1>
+      <h1 className="text-center text-xl font-bold mb-5 dark:text-neutral-300">
+        회원가입
+      </h1>
       <div className="mb-5">
-        <label className="block text-sm mb-1">이메일</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          이메일
+        </label>
         <input
           type="text"
           value={email}
@@ -96,7 +102,9 @@ const Join: FC = () => {
         </span>
       </div>
       <div className="mb-5">
-        <label className="block text-sm mb-1">비밀번호</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          비밀번호
+        </label>
         <input
           type="password"
           value={password}
@@ -115,7 +123,9 @@ const Join: FC = () => {
         </span>
       </div>
       <div className="mb-5">
-        <label className="block text-sm mb-1">비밀번호 확인</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          비밀번호 확인
+        </label>
         <input
           type="password"
           value={confirmPassword}
@@ -142,7 +152,7 @@ const Join: FC = () => {
       </div>
       <div className="flex justify-center">
         <button
-          className={`mx-1 bg-blue-400 text-white rounded-xl px-4 py-2 hover:bg-blue-500 ${
+          className={`mx-1 bg-blue-400 text-white rounded-xl px-4 py-2 hover:bg-blue-500 transition-all duration-500 ${
             !isValid && "bg-neutral-300 hover:bg-neutral-300 cursor-not-allowed"
           }`}
           disabled={!isValid}
@@ -154,10 +164,10 @@ const Join: FC = () => {
           확인
         </button>
         <button
-          className="mx-1 bg-blue-400 text-white rounded-xl px-4 py-2 hover:bg-blue-500"
+          className="mx-1 bg-blue-400 text-white rounded-xl px-4 py-2 hover:bg-blue-500 transition-all duration-500"
           onClick={(e) => {
             e.preventDefault();
-            setModalState(false);
+            setAuthModalState(false);
           }}
         >
           닫기

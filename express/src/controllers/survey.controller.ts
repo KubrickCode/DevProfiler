@@ -7,13 +7,31 @@ export const getSurveyController = async (req: Request, res: Response) => {
 };
 export const createSurveyController = async (req: Request, res: Response) => {
   const { category, response } = req.body;
-  await serveyService.createSurveyService(
+  const result = await serveyService.createSurveyService(
     req.user?.id as number,
     category,
     response
   );
+  if (result) {
+    res.status(201).json({ message: "검사 저장 성공" });
+  }
 };
 
 export const deleteSurveyController = async (req: Request, res: Response) => {
-  await serveyService.deleteSurveyService(req.params.id as number);
+  const result = await serveyService.deleteSurveyService(
+    req.params.id as number
+  );
+  if (result) {
+    res.status(201).json({ message: "검사 삭제 성공" });
+  }
+};
+
+export const updateSurveyController = async (req: Request, res: Response) => {
+  const result = await serveyService.updateSurveyService(
+    req.body.id,
+    req.body.response
+  );
+  if (result) {
+    res.status(201).json({ message: "검사 업데이트 성공" });
+  }
 };

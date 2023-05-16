@@ -1,23 +1,25 @@
 import { FC, useState } from "react";
 import Login from "./Login";
 import Join from "./Join";
-import { useModalStore } from "../../../store/ModalStore";
+import { useAuthModalStore } from "../../../store/ModalStore";
 
 const Auth: FC = () => {
   const [tab, setTab] = useState("Login");
-  const modalState = useModalStore((state) => state.modalState);
-  const setModalState = useModalStore((state) => state.setModalState);
+  const authModalState = useAuthModalStore((state) => state.authModalState);
+  const setAuthModalState = useAuthModalStore(
+    (state) => state.setAuthModalState
+  );
 
-  if (!modalState) return null;
+  if (!authModalState) return null;
 
   return (
     <>
       <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm">
         <div
           className="fixed inset-0 bg-black opacity-70"
-          onClick={() => setModalState(false)}
+          onClick={() => setAuthModalState(false)}
         ></div>
-        <div className="relative bg-white p-10 overflow-hidden z-60 rounded-3xl">
+        <div className="relative bg-white p-10 overflow-hidden z-60 rounded-3xl dark:bg-neutral-700">
           <div
             className={`${
               tab === "Login" ? "opacity-100" : "h-0 opacity-0"

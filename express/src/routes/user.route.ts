@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  checkPasswordController,
   createUserController,
   deleteUserController,
   getUserContoller,
@@ -16,6 +17,7 @@ router.get("/", validateJWT, getUserContoller);
 router.get("/refresh", refreshTokenController);
 router.post("/", validateBody(userDto), createUserController);
 router.post("/login", loginController);
+router.post("/check-password", validateJWT, checkPasswordController);
 router.patch("/", validateJWT, updateUserController);
 router.delete("/", validateJWT, deleteUserController);
 

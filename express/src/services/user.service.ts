@@ -1,10 +1,11 @@
-import { hashPassword } from "../integrations/handlePassword";
+import { comparePassword, hashPassword } from "../integrations/handlePassword";
 import { User } from "../db/db.type";
 import userRepository from "../db/repository/user.repository";
 import {
   loginAuthenticate,
   verifyRefreshToken,
 } from "../integrations/handleLogin";
+import surveyRepository from "../db/repository/survey.repository";
 
 class UserService {
   async getUserService(_email: string) {
@@ -39,7 +40,13 @@ class UserService {
   }
 
   async deleteUserService(id: number) {
+    await surveyRepository.deleteAllByUserId(id);
     return await userRepository.delete(id);
+  }
+
+  async checkPasswordService(email: string, password: string) {
+    const user = await userRepository.getUserByEmail(email);
+    return await comparePassword(password, user?.password as string);
   }
 }
 
