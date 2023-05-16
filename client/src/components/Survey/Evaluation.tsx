@@ -1,9 +1,13 @@
-import { FC, useState } from "react";
+import { FC, useState, useMemo } from "react";
 import { BackEndSurveyData, BackEndSurveyTitle } from "./SurveyData/BackEnd";
 import { FrontEndSurveyData, FrontEndSurveyTitle } from "./SurveyData/FrontEnd";
 import { frontEndfeedback } from "./SurveyData/FronEndFeedbacks";
 import { backEndfeedback } from "./SurveyData/BackEndFeedbacks";
 import { useAuthModalStore } from "../../store/ModalStore";
+import { Chart as ChartJS, CategoryScale } from "chart.js/auto";
+import { Bar } from "react-chartjs-2";
+
+ChartJS.register(CategoryScale);
 
 interface ownProps {
   values: number[];
@@ -55,7 +59,7 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
         </span>
       </div>
       <p className="text-center dark:text-neutral-200 mb-5 mt-2">
-        아래 각 항목을 클릭해서 피드백을 읽어보세요
+        아래 각 항목을 클릭해서 평가 및 피드백을 읽어보세요
       </p>
       <div>
         {titleList.map((item, index) => (
@@ -84,7 +88,7 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
             </button>
             <div
               className={`overflow-hidden transition-all duration-500 ease-in-out ${
-                open[index] ? "max-h-96" : "max-h-0"
+                open[index] ? "max-h-[2000px]" : "max-h-0"
               }`}
             >
               {surveyData[index].map((question, i) => (
@@ -103,6 +107,7 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
             </div>
           </div>
         ))}
+        <UserChart values={values} titleList={titleList} />
         <button
           className={`${
             isLogin && "hidden"
@@ -113,6 +118,73 @@ const Evaluation: FC<ownProps> = ({ values, type }) => {
         </button>
       </div>
     </div>
+  );
+};
+
+interface ChartProps {
+  values: number[];
+  titleList: string[];
+}
+
+const UserChart = ({ values, titleList }: ChartProps) => {
+  const chartConfig = useMemo(() => {
+    const labels = titleList.map((title) =>
+      title.substring(0, title.length - 5)
+    );
+    const barData = Array(5)
+      .fill(0)
+      .map(
+        (_, i) =>
+          (values.slice(i * 5, i * 5 + 5).reduce((acc, curr) => acc + curr, 0) /
+            20) *
+          100
+      );
+
+    const colors = [
+      "rgb(54, 162, 235)",
+      "rgb(255, 99, 132)",
+      "rgb(75, 192, 192)",
+      "rgb(153, 102, 255)",
+      "rgb(255, 159, 64)",
+    ];
+
+    const datasets = [
+      {
+        label: "data",
+        data: barData,
+        backgroundColor: colors,
+      },
+    ];
+
+    return {
+      labels,
+      datasets,
+    };
+  }, [values, titleList]);
+
+  const options = {
+    responsive: true,
+    scales: {
+      y: {
+        min: 0,
+        max: 100,
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      title: {
+        display: true,
+        text: "개발 역량 평가 그래프",
+      },
+    },
+  };
+
+  return (
+    <>
+      <Bar data={chartConfig} options={options} />
+    </>
   );
 };
 
