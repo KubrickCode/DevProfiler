@@ -17,7 +17,7 @@ const Auth: FC = () => {
           className="fixed inset-0 bg-black opacity-70"
           onClick={() => setModalState(false)}
         ></div>
-        <div className="relative bg-white p-10 overflow-hidden z-60 rounded-3xl">
+        <div className="relative bg-white p-10 overflow-hidden z-60 rounded-3xl dark:bg-neutral-700">
           <div
             className={`${
               tab === "Login" ? "opacity-100" : "h-0 opacity-0"

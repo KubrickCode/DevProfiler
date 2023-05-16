@@ -4,6 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { initializePassport } from "./middlewares/passport";
 import "express-async-errors";
+import { connectRedis } from "./db/Redis";
 
 export const app = express();
 const passport = initializePassport();
@@ -28,6 +29,7 @@ export const startServer = () => {
 };
 
 if (process.env.NODE_ENV !== "test") {
+  connectRedis();
   startServer();
 }
 

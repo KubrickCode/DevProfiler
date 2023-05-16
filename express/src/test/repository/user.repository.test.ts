@@ -14,10 +14,10 @@ describe("UserRepository", () => {
   });
 
   it("getUserByEmailRepository", async () => {
-    const mockEmail = "wera@qwe.qwe";
+    const mockEmail = "test@gmail.com";
     const user = await UserRepository.getUserByEmail(mockEmail);
 
-    expect(user?.id).toEqual(32);
+    expect(user?.id).toEqual(42);
     expect(user?.email).toEqual(mockEmail);
   });
 

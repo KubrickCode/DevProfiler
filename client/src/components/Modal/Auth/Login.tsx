@@ -45,9 +45,13 @@ const Login: FC = () => {
 
   return (
     <form>
-      <h1 className="text-center text-xl font-bold mb-5">로그인</h1>
+      <h1 className="text-center text-xl font-bold mb-5 dark:text-neutral-300">
+        로그인
+      </h1>
       <div>
-        <label className="block text-sm mb-1">이메일</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          이메일
+        </label>
         <input
           type="text"
           value={email}
@@ -56,7 +60,9 @@ const Login: FC = () => {
         />
       </div>
       <div>
-        <label className="block text-sm mb-1">비밀번호</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          비밀번호
+        </label>
         <input
           type="password"
           value={password}
@@ -91,6 +97,18 @@ const Login: FC = () => {
           닫기
         </button>
       </div>
+      <button className="border w-full my-2 rounded-lg py-2 shadow-lg bg-white hover:bg-neutral-200 transition-all duration-500">
+        <img src="/social_logo/google.png" className="w-6 mr-2 inline" />
+        <span>Google 계정으로 로그인</span>
+      </button>
+      <button className="w-full my-2 rounded-lg py-2 shadow-lg bg-[#FEE500] hover:brightness-90 transition-all duration-500">
+        <img src="/social_logo/kakao.png" className="w-5 mr-2 mb-1 inline" />
+        <span>카카오 로그인</span>
+      </button>
+      <button className="w-full my-2 rounded-lg py-2 shadow-lg bg-neutral-800 hover:bg-neutral-600 transition-all duration-500">
+        <img src="/social_logo/github.png" className="w-5 mb-1 mr-2 inline" />
+        <span className="text-neutral-300">Github로 로그인</span>
+      </button>
     </form>
   );
 };

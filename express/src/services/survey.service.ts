@@ -1,4 +1,3 @@
-import { Survey } from "../db/db.type";
 import SurveyRepository from "../db/repository/survey.repository";
 
 class SurveyService {
@@ -7,11 +6,11 @@ class SurveyService {
     category: string,
     response: number[]
   ) {
-    await SurveyRepository.create(user_id, category, response);
+    return await SurveyRepository.create(user_id, category, response);
   }
 
   async deleteSurveyService(id: number) {
-    await SurveyRepository.delete(id);
+    return await SurveyRepository.delete(id);
   }
 
   async getSurveyService(user_id: number) {

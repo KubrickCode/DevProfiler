@@ -75,9 +75,13 @@ const Join: FC = () => {
 
   return (
     <form>
-      <h1 className="text-center text-xl font-bold mb-5">회원가입</h1>
+      <h1 className="text-center text-xl font-bold mb-5 dark:text-neutral-300">
+        회원가입
+      </h1>
       <div className="mb-5">
-        <label className="block text-sm mb-1">이메일</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          이메일
+        </label>
         <input
           type="text"
           value={email}
@@ -96,7 +100,9 @@ const Join: FC = () => {
         </span>
       </div>
       <div className="mb-5">
-        <label className="block text-sm mb-1">비밀번호</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          비밀번호
+        </label>
         <input
           type="password"
           value={password}
@@ -115,7 +121,9 @@ const Join: FC = () => {
         </span>
       </div>
       <div className="mb-5">
-        <label className="block text-sm mb-1">비밀번호 확인</label>
+        <label className="block text-sm mb-1 dark:text-neutral-300">
+          비밀번호 확인
+        </label>
         <input
           type="password"
           value={confirmPassword}

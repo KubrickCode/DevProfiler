@@ -18,10 +18,6 @@ export const connectRedis = async () => {
   console.log("레디스 연결 완료");
 };
 
-if (process.env.NODE_ENV !== "test") {
-  connectRedis();
-}
-
 export let getAsync: (arg1: string) => Promise<string | null> = promisify(
   redisClient.get
 ).bind(redisClient);
