@@ -2,6 +2,9 @@
 import { connectRedis, disconnectRedis } from "../../db/Redis";
 import UserService from "../../services/user.service";
 import { comparePassword } from "./../../integrations/handlePassword";
+import { checkPasswordServiceSuccess } from "./user/checkPassword.service.helper";
+import { deleteUserServiceSuccess } from "./user/deleteUser.service.helper";
+import { updateUserServiceSuccess } from "./user/updateUser.service.helper";
 
 describe("UserService", () => {
   beforeAll(async () => {
@@ -10,6 +13,18 @@ describe("UserService", () => {
 
   afterAll(() => {
     disconnectRedis();
+  });
+
+  describe("checkPasswordService", () => {
+    it("checkPasswordServiceSuccess", checkPasswordServiceSuccess);
+  });
+
+  describe("updateUserService", () => {
+    it("updateUserServiceSuccess", updateUserServiceSuccess);
+  });
+
+  describe("deleteUserService", () => {
+    it("deleteUserServiceSuccess", deleteUserServiceSuccess);
   });
 
   it("getUserService", async () => {
@@ -38,12 +53,6 @@ describe("UserService", () => {
     expect(comparePassword(user.password, mockUser.password)).toBeTruthy();
   });
 
-  it("deleteUserService", async () => {
-    const mockUserId = 36;
-    const user = await UserService.deleteUserService(mockUserId);
-    expect(user.id).toEqual(mockUserId);
-  });
-
   it("loginService", async () => {
     const mockUser = { email: "test@test.com", password: "hashedpassword" };
     const user = await UserService.loginService(
@@ -54,7 +63,7 @@ describe("UserService", () => {
     expect(user).toHaveProperty("token");
   });
 
-  it.only("refreshTokenService", async () => {
+  it("refreshTokenService", async () => {
     const refreshToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg1MzU5ODQ1fQ.9Tf6uz48i2-bJzaG2NUlXry8AL3moRMT1jc05dyUnpU";
     const token = await UserService.refreshTokenService(refreshToken);

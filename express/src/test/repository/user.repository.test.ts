@@ -1,6 +1,8 @@
 // user.repository.test.ts
 import { startServer } from "../../app";
 import UserRepository from "../../db/repository/user.repository";
+import { deleteUserRepositorySuccess } from "./user/deleteUser.repository.helper";
+import { updateUserRepositorySuccess } from "./user/updateUser.repository.helper";
 
 describe("UserRepository", () => {
   let server: any;
@@ -11,6 +13,14 @@ describe("UserRepository", () => {
 
   afterAll((done) => {
     server.close(done);
+  });
+
+  describe("updateUserRepository", () => {
+    it("updateUserRepositorySuccess", updateUserRepositorySuccess);
+  });
+
+  describe("deleteUserRepository", () => {
+    it("deleteUserRepositorySuccess", deleteUserRepositorySuccess);
   });
 
   it("getUserByEmailRepository", async () => {

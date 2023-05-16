@@ -2,6 +2,10 @@
 import request from "supertest";
 import { app } from "../../app";
 import { connectRedis, disconnectRedis } from "../../db/Redis";
+import { checkPasswordRouteSuccess } from "./user/checkPassword.route.helper";
+import { updateUserRouteSuccess } from "./user/updateUser.route.helper";
+import { createUserRouteSuccess } from "./user/createUser.route.helper";
+import { deleteUserRouteSuccess } from "./user/deleteUser.route.helper";
 
 describe("/api/user", () => {
   beforeAll(async () => {
@@ -11,6 +15,23 @@ describe("/api/user", () => {
   afterAll(() => {
     disconnectRedis();
   });
+
+  describe("createUserRoute", () => {
+    it("createUserRouteSuccess", createUserRouteSuccess);
+  });
+
+  describe("checkPasswordRoute", () => {
+    it("checkPasswordRouteSuccess", checkPasswordRouteSuccess);
+  });
+
+  describe("updateUserRoute", () => {
+    it("updateUserRouteSuccess", updateUserRouteSuccess);
+  });
+
+  describe("deleteUserRoute", () => {
+    it("deleteUserRouteSuccess", deleteUserRouteSuccess);
+  });
+
   it("getUserRoute", async () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg0MTUzODQ1fQ.WD5vuYSEiXiE22MFnWQAKMoR0wRPfLOikfbfoTW0kJo";
@@ -32,20 +53,10 @@ describe("/api/user", () => {
     expect(res.body).toHaveProperty("token");
   });
 
-  it("createUserRoute", async () => {
-    const res = await request(app)
-      .post("/api/user")
-      .send({ email: "test@test.com", password: "test1234!@" });
-
-    expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty("refreshToken");
-    expect(res.body).toHaveProperty("token");
-  });
-
   it("loginRoute", async () => {
     const res = await request(app)
       .post("/api/user/login")
-      .send({ email: "test@gmail.com", password: "Lsh71451428!@" });
+      .send({ email: "test@gmail.com", password: "" });
 
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("refreshToken");

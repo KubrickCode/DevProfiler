@@ -15,6 +15,10 @@ class SurveyRepository {
     });
   }
 
+  async deleteAllByUserId(user_id: number) {
+    return await prisma.survey.deleteMany({ where: { user_id } });
+  }
+
   async get(user_id: number) {
     return await prisma.survey.findMany({
       where: { user_id },
