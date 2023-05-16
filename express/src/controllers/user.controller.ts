@@ -64,5 +64,7 @@ export const checkPasswordController = async (req: Request, res: Response) => {
   );
   if (result) {
     res.status(201).json({ message: "비밀번호 확인 성공" });
+  } else {
+    res.status(404).json({ message: "기존 비밀번호를 확인하세요" });
   }
 };
