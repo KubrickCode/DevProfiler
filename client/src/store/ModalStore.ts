@@ -10,8 +10,19 @@ const authModalStore: StateCreator<AuthModalStoreType> = (set) => ({
 
 const confirmModalStore: StateCreator<ConfirmModalStoreType> = (set) => ({
   confirmModalState: false,
-  setConfirmModalState: (confirmModalState: boolean) =>
-    set((state) => ({ ...state, confirmModalState })),
+  confirmType: "",
+  selectedSurvey: 0,
+  setConfirmModalState: (
+    confirmModalState: boolean,
+    confirmType: string,
+    selectedSurvey?: number
+  ) =>
+    set((state) => ({
+      ...state,
+      confirmModalState,
+      confirmType,
+      selectedSurvey,
+    })),
 });
 
 export const useAuthModalStore = create<AuthModalStoreType>(

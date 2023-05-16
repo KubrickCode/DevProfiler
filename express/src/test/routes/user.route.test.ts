@@ -45,9 +45,7 @@ describe("/api/user", () => {
   it("loginRoute", async () => {
     const res = await request(app)
       .post("/api/user/login")
-      .send({ email: "test@test.com", password: "test1234!@" });
-
-    console.log(res.body);
+      .send({ email: "test@gmail.com", password: "Lsh71451428!@" });
 
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("refreshToken");

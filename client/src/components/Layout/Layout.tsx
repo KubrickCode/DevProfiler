@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Header from "./Header";
 import Auth from "../Modal/Auth/Auth";
-import Confirm from "../Modal/Confirm";
+import Confirm from "../Modal/Confirm/Confirm";
 
 const Layout: FC = () => {
   return (

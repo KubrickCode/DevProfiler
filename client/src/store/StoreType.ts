@@ -19,5 +19,11 @@ export interface AuthModalStoreType {
 
 export interface ConfirmModalStoreType {
   confirmModalState: boolean;
-  setConfirmModalState(confirmModalState: boolean): void;
+  confirmType: string;
+  selectedSurvey: number;
+  setConfirmModalState(
+    confirmModalState: boolean,
+    confirmType: string,
+    selectedSurvey?: number
+  ): void;
 }

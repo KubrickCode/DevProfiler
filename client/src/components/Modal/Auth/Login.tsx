@@ -34,7 +34,7 @@ const Login: FC = () => {
           data?.map((item: SurveyType) => item.category).indexOf(surveyType) ===
           0
         ) {
-          setConfirmModalState(true);
+          setConfirmModalState(true, "updateSurvey");
         } else {
           setResponse({
             body: {

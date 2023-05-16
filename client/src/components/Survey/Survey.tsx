@@ -8,6 +8,7 @@ import { useSurveyStore } from "../../store/SurveyStore";
 import { useQueryGet, useQueryMutate } from "../../hooks/useQueryFetch";
 import { SurveyType } from "../MyPage/MyPage";
 import { useConfirmModalStore } from "../../store/ModalStore";
+import { useQueryClient } from "react-query";
 
 const Survey: FC = () => {
   const surveyType = useSurveyStore((state) => state.surveyType);
@@ -19,6 +20,8 @@ const Survey: FC = () => {
   );
 
   const isLogin = localStorage.getItem("token") ? true : false;
+
+  const queryClient = useQueryClient();
 
   const { mutate } = useQueryMutate("/survey", "post");
   const { data: getResponse } = useQueryGet("/survey", "getSurvey", {
@@ -58,14 +61,21 @@ const Survey: FC = () => {
           ?.map((item: SurveyType) => item.category)
           .indexOf(surveyType) === 0
       ) {
-        setConfirmModalState(true);
+        setConfirmModalState(true, "updateSurvey");
       } else {
-        mutate({
-          body: {
-            category: surveyType,
-            response: surveyResponse,
+        mutate(
+          {
+            body: {
+              category: surveyType,
+              response: surveyResponse,
+            },
           },
-        });
+          {
+            onSuccess: () => {
+              queryClient.invalidateQueries("getSurvey");
+            },
+          }
+        );
       }
     }
 
