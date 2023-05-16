@@ -20,6 +20,17 @@ class SurveyRepository {
       where: { user_id },
     });
   }
+
+  async update(id: number, response: number[]) {
+    return await prisma.survey.update({
+      where: {
+        id,
+      },
+      data: {
+        response,
+      },
+    });
+  }
 }
 
 export default new SurveyRepository();

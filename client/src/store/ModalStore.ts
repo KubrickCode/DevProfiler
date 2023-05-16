@@ -1,13 +1,23 @@
 import { create, StateCreator } from "zustand";
 import { devtools } from "zustand/middleware";
-import { ModalStoreType } from "./StoreType";
+import { AuthModalStoreType, ConfirmModalStoreType } from "./StoreType";
 
-const modalStore: StateCreator<ModalStoreType> = (set) => ({
-  modalState: false,
-  setModalState: (modalState: boolean) =>
-    set((state) => ({ ...state, modalState })),
+const authModalStore: StateCreator<AuthModalStoreType> = (set) => ({
+  authModalState: false,
+  setAuthModalState: (authModalState: boolean) =>
+    set((state) => ({ ...state, authModalState })),
 });
 
-export const useModalStore = create<ModalStoreType>(
-  devtools(modalStore) as unknown as StateCreator<ModalStoreType>
+const confirmModalStore: StateCreator<ConfirmModalStoreType> = (set) => ({
+  confirmModalState: false,
+  setConfirmModalState: (confirmModalState: boolean) =>
+    set((state) => ({ ...state, confirmModalState })),
+});
+
+export const useAuthModalStore = create<AuthModalStoreType>(
+  devtools(authModalStore) as unknown as StateCreator<AuthModalStoreType>
+);
+
+export const useConfirmModalStore = create<ConfirmModalStoreType>(
+  devtools(confirmModalStore) as unknown as StateCreator<ConfirmModalStoreType>
 );

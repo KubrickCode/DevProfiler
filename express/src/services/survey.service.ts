@@ -16,6 +16,10 @@ class SurveyService {
   async getSurveyService(user_id: number) {
     return await SurveyRepository.get(user_id);
   }
+
+  async updateSurveyService(id: number, response: number[]) {
+    return await SurveyRepository.update(id, response);
+  }
 }
 
 export default new SurveyService();

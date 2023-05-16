@@ -5,17 +5,25 @@ import { FrontEndSurveyData } from "./SurveyData/FrontEnd";
 import CustomRadio from "./CustomRadio";
 import Evaluation from "./Evaluation";
 import { useSurveyStore } from "../../store/SurveyStore";
-import { useQueryMutate } from "../../hooks/useQueryFetch";
+import { useQueryGet, useQueryMutate } from "../../hooks/useQueryFetch";
+import { SurveyType } from "../MyPage/MyPage";
+import { useConfirmModalStore } from "../../store/ModalStore";
 
 const Survey: FC = () => {
   const surveyType = useSurveyStore((state) => state.surveyType);
   const surveyResponse = useSurveyStore((state) => state.surveyResponse);
   const setSurveyResponse = useSurveyStore((state) => state.setSurveyResponse);
   const setSurveyState = useSurveyStore((state) => state.setSurveyState);
+  const setConfirmModalState = useConfirmModalStore(
+    (state) => state.setConfirmModalState
+  );
 
   const isLogin = localStorage.getItem("token") ? true : false;
 
   const { mutate } = useQueryMutate("/survey", "post");
+  const { data: getResponse } = useQueryGet("/survey", "getSurvey", {
+    enabled: !!isLogin,
+  });
 
   const [page, setPage] = useState(0);
   const [surveyCompleted, setSurveyCompleted] = useState(false);
@@ -45,12 +53,20 @@ const Survey: FC = () => {
   const onComplete = async () => {
     setSurveyState("complete");
     if (isLogin) {
-      mutate({
-        body: {
-          category: surveyType,
-          response: surveyResponse,
-        },
-      });
+      if (
+        getResponse
+          ?.map((item: SurveyType) => item.category)
+          .indexOf(surveyType) === 0
+      ) {
+        setConfirmModalState(true);
+      } else {
+        mutate({
+          body: {
+            category: surveyType,
+            response: surveyResponse,
+          },
+        });
+      }
     }
 
     isComplete && setSurveyCompleted(true);

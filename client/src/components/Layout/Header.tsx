@@ -1,13 +1,15 @@
 import { FC, useState, useRef } from "react";
 import DarkModeBtn from "./DarkModeBtn";
 import { usePersistStore } from "../../store/GlobalStore";
-import { useModalStore } from "../../store/ModalStore";
+import { useAuthModalStore } from "../../store/ModalStore";
 import DropDown from "./DropDown";
 
 const Header: FC = () => {
   const theme = usePersistStore((state) => state.theme);
   const isLogin = localStorage.getItem("token") ? true : false;
-  const setModalState = useModalStore((state) => state.setModalState);
+  const setAuthModalState = useAuthModalStore(
+    (state) => state.setAuthModalState
+  );
 
   const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -47,7 +49,7 @@ const Header: FC = () => {
           className={`${
             isLogin ? "hidden" : "inline"
           } py-2.5 px-5 mr-2 text-sm font-medium text-neutral-900 focus:outline-none bg-white rounded-full border border-neutral-200 hover:bg-neutral-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-neutral-200 dark:focus:ring-neutral-700 dark:bg-neutral-800 dark:text-neutral-300 dark:border-neutral-600 dark:hover:text-white dark:hover:bg-neutral-700`}
-          onClick={() => setModalState(true)}
+          onClick={() => setAuthModalState(true)}
         >
           로그인
         </button>

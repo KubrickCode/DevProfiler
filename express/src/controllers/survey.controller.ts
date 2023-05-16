@@ -17,3 +17,13 @@ export const createSurveyController = async (req: Request, res: Response) => {
 export const deleteSurveyController = async (req: Request, res: Response) => {
   await serveyService.deleteSurveyService(req.params.id as number);
 };
+
+export const updateSurveyController = async (req: Request, res: Response) => {
+  const result = await serveyService.updateSurveyService(
+    req.body.id,
+    req.body.response
+  );
+  if (result) {
+    res.status(201).json({ message: "검사 업데이트 성공" });
+  }
+};

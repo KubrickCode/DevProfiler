@@ -3,15 +3,14 @@ import request from "supertest";
 import { app } from "../../app";
 import { connectRedis, disconnectRedis } from "../../db/Redis";
 
-beforeAll(async () => {
-  await connectRedis();
-});
-
-afterAll(() => {
-  disconnectRedis();
-});
-
 describe("/api/user", () => {
+  beforeAll(async () => {
+    await connectRedis();
+  });
+
+  afterAll(() => {
+    disconnectRedis();
+  });
   it("getUserRoute", async () => {
     const token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg0MTUzODQ1fQ.WD5vuYSEiXiE22MFnWQAKMoR0wRPfLOikfbfoTW0kJo";

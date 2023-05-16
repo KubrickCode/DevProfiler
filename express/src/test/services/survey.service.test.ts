@@ -2,6 +2,7 @@
 import { createSurveyServiceSuccess } from "./survey/createSurvey.service.helper";
 import { deleteSurveyServiceSuccess } from "./survey/deleteSurvey.service.helper";
 import { getSurveyServiceSuccess } from "./survey/getSurvey.service.helper";
+import { updateSurveyServiceSuccess } from "./survey/updateSurvey.service.helper";
 
 describe("SurveyService", () => {
   describe("getSurveyService", () => {
@@ -14,5 +15,9 @@ describe("SurveyService", () => {
 
   describe("deleteSurveyService", () => {
     it("deleteSurveyServiceSuccess", deleteSurveyServiceSuccess);
+  });
+
+  describe("updateSurveyService", () => {
+    it("updateSurveyServiceSuccess", updateSurveyServiceSuccess);
   });
 });

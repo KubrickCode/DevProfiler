@@ -12,7 +12,12 @@ export interface SurveyStoreType {
   setSurveyResponse(surveyResponse: number[]): void;
 }
 
-export interface ModalStoreType {
-  modalState: boolean;
-  setModalState(modalState: boolean): void;
+export interface AuthModalStoreType {
+  authModalState: boolean;
+  setAuthModalState(authModalState: boolean): void;
+}
+
+export interface ConfirmModalStoreType {
+  confirmModalState: boolean;
+  setConfirmModalState(confirmModalState: boolean): void;
 }
