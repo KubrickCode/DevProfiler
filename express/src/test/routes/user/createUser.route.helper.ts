@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../../../app";
+import { app } from "../../..";
 
 export const createUserRouteSuccess = async () => {
   const res = await request(app)

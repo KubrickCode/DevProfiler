@@ -1,6 +1,6 @@
 // user.repository.test.ts
 import surveyRepository from "../../db/repository/survey.repository";
-import { startServer } from "../../app";
+import { startServer } from "../..";
 import { updateSurveyRepositorySuccess } from "./survey/updateSurvey.repository.helper";
 import { deleteSurveyRepositorySuccess } from "./survey/deleteSurvey.repository.helper";
 

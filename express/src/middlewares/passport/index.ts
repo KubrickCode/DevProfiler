@@ -1,10 +1,10 @@
 // index.ts
 import passport from "passport";
 import jwtStrategy from "./jwt.strategy"; // import JWT strategy
-import userService from "../../services/user.service";
 import { NextFunction, Request, Response } from "express";
 import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
+import { userService } from "../../dependency/user.dependency";
 
 export const initializePassport = () => {
   passport.serializeUser((user, done) => {

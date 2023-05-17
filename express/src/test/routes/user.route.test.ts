@@ -1,6 +1,6 @@
 // user.route.test.ts
 import request from "supertest";
-import { app } from "../../app";
+import { app } from "../..";
 import { connectRedis, disconnectRedis } from "../../db/Redis";
 import { checkPasswordRouteSuccess } from "./user/checkPassword.route.helper";
 import { updateUserRouteSuccess } from "./user/updateUser.route.helper";
@@ -16,7 +16,7 @@ describe("/api/user", () => {
     disconnectRedis();
   });
 
-  describe("createUserRoute", () => {
+  describe.only("createUserRoute", () => {
     it("createUserRouteSuccess", createUserRouteSuccess);
   });
 

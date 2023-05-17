@@ -18,9 +18,7 @@ export const createSurveyController = async (req: Request, res: Response) => {
 };
 
 export const deleteSurveyController = async (req: Request, res: Response) => {
-  const result = await serveyService.deleteSurveyService(
-    req.params.id as number
-  );
+  const result = await serveyService.deleteSurveyService(Number(req.params.id));
   if (result) {
     res.status(201).json({ message: "검사 삭제 성공" });
   }

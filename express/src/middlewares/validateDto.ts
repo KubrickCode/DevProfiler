@@ -19,19 +19,3 @@ export const validateBody = <T extends object>(
     }
   };
 };
-
-export const validateNumberParams = (): RequestHandler => {
-  return (req, res, next) => {
-    const paramValue = req.params.id;
-    const id = Number(paramValue);
-
-    if (!paramValue || isNaN(id)) {
-      res.status(400).json({
-        error: `잘못된 id값 요청입니다`,
-      });
-    } else {
-      req.params.id = id;
-      next();
-    }
-  };
-};

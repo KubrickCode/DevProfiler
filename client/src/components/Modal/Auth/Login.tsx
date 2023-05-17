@@ -106,7 +106,7 @@ const Login: FC = () => {
       >
         {errMsg}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mb-4">
         <button
           className="mx-1 bg-blue-400 text-white rounded-xl px-4 py-2 hover:bg-blue-500 transition-all duration-500"
           onClick={(e) => {
@@ -134,7 +134,7 @@ const Login: FC = () => {
         <img src="/social_logo/kakao.png" className="w-5 mr-2 mb-1 inline" />
         <span>카카오 로그인</span>
       </button>
-      <button className="w-full my-2 rounded-lg py-2 shadow-lg bg-neutral-800 hover:bg-neutral-600 transition-all duration-500">
+      <button className="w-full my-2 rounded-lg py-2 shadow-lg bg-neutral-800 hover:bg-neutral-950 transition-all duration-500">
         <img src="/social_logo/github.png" className="w-5 mb-1 mr-2 inline" />
         <span className="text-neutral-300">Github로 로그인</span>
       </button>

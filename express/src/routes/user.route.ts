@@ -1,17 +1,19 @@
 import { Router } from "express";
-import {
-  checkPasswordController,
-  createUserController,
-  deleteUserController,
-  getUserContoller,
-  loginController,
-  refreshTokenController,
-  updateUserController,
-} from "../controllers/user.controller";
 import { validateBody } from "../middlewares/validateDto";
 import { userDto } from "../dto/user.dto";
 import { validateJWT } from "../middlewares/passport";
+import { userController } from "../dependency/user.dependency";
+
 const router = Router();
+const {
+  getUserContoller,
+  refreshTokenController,
+  createUserController,
+  loginController,
+  checkPasswordController,
+  updateUserController,
+  deleteUserController,
+} = userController;
 
 router.get("/", validateJWT, getUserContoller);
 router.get("/refresh", refreshTokenController);

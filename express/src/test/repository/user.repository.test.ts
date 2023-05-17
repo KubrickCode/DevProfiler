@@ -1,5 +1,5 @@
 // user.repository.test.ts
-import { startServer } from "../../app";
+import { startServer } from "../..";
 import UserRepository from "../../db/repository/user.repository";
 import { deleteUserRepositorySuccess } from "./user/deleteUser.repository.helper";
 import { updateUserRepositorySuccess } from "./user/updateUser.repository.helper";

@@ -24,13 +24,15 @@ app.use(((err, req, res, next) => {
     .json({ message: err.message || "서버 실행 오류" });
 }) as ErrorRequestHandler);
 
-export const startServer = () => {
-  return app.listen(3001, () => console.log("3001번 포트에서 Express 실행"));
+export const startServer = async () => {
+  return app.listen(3000, () => console.log("3000번 포트에서 Express 실행"));
 };
 
 if (process.env.NODE_ENV !== "test") {
-  connectRedis();
-  startServer();
+  (async () => {
+    await startServer();
+    await connectRedis();
+  })();
 }
 
 export default app;
