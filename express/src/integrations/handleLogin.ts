@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import Redis from "../db/Redis";
-import { User } from "../db/db.type";
+import { Provider, User } from "../db/db.type";
 import HandlePassword from "./handlePassword";
 import UserRepository from "../db/repository/user.repository";
+import passport from "passport";
+import { NextFunction, Request, Response } from "express";
 dotenv.config();
 
 class HandleLogin {
@@ -13,7 +15,7 @@ class HandleLogin {
     private redis: Redis
   ) {}
 
-  signJWT(payload: { id: number; email: string }) {
+  signJWT(payload: { id: number; email: string; provider: Provider }) {
     const secret = process.env.JWT_SECRET!;
     const refreshSecret = process.env.JWT_REFRESH_SECRET!;
 
@@ -39,14 +41,14 @@ class HandleLogin {
           return resolve(false);
         }
 
-        const { id, email } = user as User;
+        const { id, email, provider } = user as User;
         const existingRefreshToken = await this.redis.getRefreshToken(id);
 
         if (!existingRefreshToken || existingRefreshToken !== refreshToken) {
           return resolve(false);
         }
 
-        const payload = { id, email };
+        const payload = { id, email, provider };
         const newToken = this.signJWT(payload).token;
         resolve(newToken);
       });
@@ -66,9 +68,36 @@ class HandleLogin {
       return { message: "비밀번호가 일치하지 않습니다" };
     }
     const { id } = user as User;
-    const { token, refreshToken } = this.signJWT({ email, id });
+    const { token, refreshToken } = this.signJWT({
+      email,
+      id,
+      provider: "Local",
+    });
     await this.redis.storeRefreshToken(id, refreshToken);
     return { token, refreshToken };
+  };
+
+  googleAuthenticate = () => {
+    return passport.authenticate("google", { scope: ["email", "profile"] });
+  };
+
+  googleCallbackAuthenticate = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return new Promise((resolve, reject) => {
+      passport.authenticate(
+        "google",
+        { session: false },
+        (err, user, info, status) => {
+          if (err) {
+            reject(err.message);
+          }
+          resolve(user);
+        }
+      )(req, res, next);
+    });
   };
 }
 

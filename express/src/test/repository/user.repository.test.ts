@@ -1,4 +1,5 @@
 // user.repository.test.ts
+import { Provider } from "../../db/db.type";
 import { startServer } from "../..";
 import { userRepository } from "../../dependency/user.dependency";
 import { deleteUserRepositorySuccess } from "./user/deleteUser.repository.helper";
@@ -32,7 +33,11 @@ describe("UserRepository", () => {
   });
 
   it("createUserRepository", async () => {
-    const mockUser = { email: "test@test.com", password: "test1234!@" };
+    const mockUser = {
+      email: "test@test.com",
+      password: "test1234!@",
+      provider: "Local" as Provider,
+    };
     const user = await userRepository.create(mockUser);
 
     expect(user.email).toEqual(mockUser.email);

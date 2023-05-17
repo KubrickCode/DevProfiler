@@ -126,10 +126,13 @@ const Login: FC = () => {
           닫기
         </button>
       </div>
-      <button className="border w-full my-2 rounded-lg py-2 shadow-lg bg-white hover:bg-neutral-200 transition-all duration-500">
+      <a
+        href="http://localhost:3000/api/user/google"
+        className="border w-full my-2 rounded-lg py-2 shadow-lg bg-white hover:bg-neutral-200 transition-all duration-500"
+      >
         <img src="/social_logo/google.png" className="w-6 mr-2 inline" />
         <span>Google 계정으로 로그인</span>
-      </button>
+      </a>
       <button className="w-full my-2 rounded-lg py-2 shadow-lg bg-[#FEE500] hover:brightness-90 transition-all duration-500">
         <img src="/social_logo/kakao.png" className="w-5 mr-2 mb-1 inline" />
         <span>카카오 로그인</span>

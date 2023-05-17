@@ -7,7 +7,9 @@ class UserRepository {
     return await prisma.user.findFirst({ where: { email } });
   };
 
-  create = async (user: Omit<User, "id">) => {
+  create = async (
+    user: Pick<User, "email" | "provider"> & Partial<Pick<User, "password">>
+  ) => {
     return await prisma.user.create({
       data: user,
     });

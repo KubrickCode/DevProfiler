@@ -3,6 +3,7 @@ import { User } from "../db/db.type";
 import UserRepository from "../db/repository/user.repository";
 import HandleLogin from "../integrations/handleLogin";
 import { surveyService } from "../dependency/survey.dependency";
+import { NextFunction, Request, Response } from "express";
 
 class UserService {
   constructor(
@@ -13,8 +14,11 @@ class UserService {
 
   getUserService = async (_email: string) => {
     const result = await this.userRepository.getUserByEmail(_email);
-    const { id, email } = result as User;
-    return { id, email };
+    if (!result) {
+      return null;
+    }
+    const { id, email, provider } = result as User;
+    return { id, email, provider };
   };
 
   loginService = async (email: string, password: string) => {
@@ -29,12 +33,13 @@ class UserService {
     const { email, password } = user;
     const isExistUser = await this.userRepository.getUserByEmail(email);
     if (isExistUser) return { message: "이미 존재하는 이메일입니다" };
-    const hashedPassword = await this.handlePassword.hashPassword(password);
+    const hashedPassword = await this.handlePassword.hashPassword(password!);
     await this.userRepository.create({
       email,
       password: hashedPassword,
+      provider: "Local",
     });
-    return await this.handleLogin.loginAuthenticate(email, password);
+    return await this.handleLogin.loginAuthenticate(email, password!);
   };
 
   updateUserService = async (id: number, password: string) => {
@@ -49,10 +54,27 @@ class UserService {
 
   checkPasswordService = async (email: string, password: string) => {
     const user = await this.userRepository.getUserByEmail(email);
-    return await this.handlePassword.comparePassword(
-      password,
-      user?.password as string
-    );
+    return await this.handlePassword.comparePassword(password, user?.password!);
+  };
+
+  googleLoginService = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return await this.handleLogin.googleAuthenticate()(req, res, next);
+  };
+
+  googleCallbackService = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return (await this.handleLogin.googleCallbackAuthenticate(
+      req,
+      res,
+      next
+    )) as User;
   };
 }
 

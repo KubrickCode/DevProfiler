@@ -13,10 +13,14 @@ const {
   checkPasswordController,
   updateUserController,
   deleteUserController,
+  googleLoginController,
+  googleCallbackController,
 } = userController;
 
 router.get("/", validateJWT, getUserContoller);
 router.get("/refresh", refreshTokenController);
+router.get("/google", googleLoginController);
+router.get("/google/callback", googleCallbackController);
 router.post("/", validateBody(userDto), createUserController);
 router.post("/login", loginController);
 router.post("/check-password", validateJWT, checkPasswordController);

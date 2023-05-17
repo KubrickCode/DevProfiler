@@ -5,6 +5,7 @@ import { NextFunction, Request, Response } from "express";
 import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
 import { userService } from "../../dependency/user.dependency";
+import googleStrategy from "./google.strategy";
 
 const initializePassport = () => {
   passport.serializeUser((user, done) => {
@@ -21,6 +22,7 @@ const initializePassport = () => {
   });
 
   passport.use(jwtStrategy);
+  passport.use(googleStrategy);
 
   return passport;
 };

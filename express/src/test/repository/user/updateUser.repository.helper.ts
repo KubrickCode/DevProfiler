@@ -10,6 +10,6 @@ export const updateUserRepositorySuccess = async () => {
   const result = await userRepository.update(mockData.id, hashedPassword);
   expect(result.id).toEqual(mockData.id);
   expect(
-    handdlePassword.comparePassword(mockData.password, result.password)
+    handdlePassword.comparePassword(mockData.password, result.password!)
   ).toBeTruthy();
 };

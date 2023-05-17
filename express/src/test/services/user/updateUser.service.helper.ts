@@ -12,6 +12,6 @@ export const updateUserServiceSuccess = async () => {
   );
 
   expect(
-    handdlePassword.comparePassword(mockData.password, result.password)
+    handdlePassword.comparePassword(mockData.password, result.password!)
   ).toBeTruthy();
 };

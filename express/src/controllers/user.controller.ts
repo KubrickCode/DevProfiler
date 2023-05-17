@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import UserService from "../services/user.service";
 
 class UserController {
@@ -76,6 +76,25 @@ class UserController {
     } else {
       res.status(404).json({ message: "기존 비밀번호를 확인하세요" });
     }
+  };
+
+  googleLoginController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    await this.userService.googleLoginService(req, res, next);
+  };
+
+  googleCallbackController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { token, refreshToken } =
+      await this.userService.googleCallbackService(req, res, next);
+
+    console.log(token, refreshToken);
   };
 }
 

@@ -3,6 +3,7 @@ import { surveyRepository } from "../../dependency/survey.dependency";
 import { startServer } from "../..";
 import { updateSurveyRepositorySuccess } from "./survey/updateSurvey.repository.helper";
 import { deleteSurveyRepositorySuccess } from "./survey/deleteSurvey.repository.helper";
+import { Category } from "../../db/db.type";
 
 describe("SurveyRepository", () => {
   let server: any;
@@ -18,7 +19,7 @@ describe("SurveyRepository", () => {
   it("createSurveyRepository", async () => {
     const mockData = {
       user_id: 42,
-      category: "FrontEnd",
+      category: "FrontEnd" as Category,
       response: [
         1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4, 0, 1, 2, 3, 4,
         0,

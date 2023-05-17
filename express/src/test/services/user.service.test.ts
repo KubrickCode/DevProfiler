@@ -1,4 +1,5 @@
 // user.service.test.ts
+import { Provider } from "../../db/db.type";
 import { redis } from "../../dependency/user.dependency";
 import { userService } from "../../dependency/user.dependency";
 import { handdlePassword } from "../../dependency/user.dependency";
@@ -31,11 +32,15 @@ describe("UserService", () => {
     const mockUserEmail = "test@test.com";
     const user = await userService.getUserService(mockUserEmail);
 
-    expect(user.email).toEqual(mockUserEmail);
+    expect(user?.email).toEqual(mockUserEmail);
   });
 
   it("createUserService", async () => {
-    const mockUser = { email: "test@test.com", password: "hashedpassword" };
+    const mockUser = {
+      email: "test@test.com",
+      password: "hashedpassword",
+      provider: "LOCAL" as Provider,
+    };
     const user = await userService.createUserService(mockUser);
 
     expect(user).toHaveProperty("refreshToken");
@@ -51,7 +56,7 @@ describe("UserService", () => {
     expect(user.email).toEqual("test@test.com");
     expect(user.id).toEqual(35);
     expect(
-      handdlePassword.comparePassword(user.password, mockUser.password)
+      handdlePassword.comparePassword(user.password!, mockUser.password)
     ).toBeTruthy();
   });
 

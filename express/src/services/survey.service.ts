@@ -1,3 +1,4 @@
+import { Category } from "../db/db.type";
 import SurveyRepository from "../db/repository/survey.repository";
 
 class SurveyService {
@@ -5,7 +6,7 @@ class SurveyService {
 
   createSurveyService = async (
     user_id: number,
-    category: string,
+    category: Category,
     response: number[]
   ) => {
     return await this.surveyRepository.create(user_id, category, response);
