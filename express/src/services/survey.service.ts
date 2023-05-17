@@ -1,25 +1,31 @@
 import SurveyRepository from "../db/repository/survey.repository";
 
 class SurveyService {
-  async createSurveyService(
+  constructor(private surveyRepository: SurveyRepository) {}
+
+  createSurveyService = async (
     user_id: number,
     category: string,
     response: number[]
-  ) {
-    return await SurveyRepository.create(user_id, category, response);
-  }
+  ) => {
+    return await this.surveyRepository.create(user_id, category, response);
+  };
 
-  async deleteSurveyService(id: number) {
-    return await SurveyRepository.delete(id);
-  }
+  deleteSurveyService = async (id: number) => {
+    return await this.surveyRepository.delete(id);
+  };
 
-  async getSurveyService(user_id: number) {
-    return await SurveyRepository.get(user_id);
-  }
+  getSurveyService = async (user_id: number) => {
+    return await this.surveyRepository.get(user_id);
+  };
 
-  async updateSurveyService(id: number, response: number[]) {
-    return await SurveyRepository.update(id, response);
-  }
+  updateSurveyService = async (id: number, response: number[]) => {
+    return await this.surveyRepository.update(id, response);
+  };
+
+  deleteAllByUserId = async (user_id: number) => {
+    return await this.surveyRepository.deleteAllByUserId(user_id);
+  };
 }
 
-export default new SurveyService();
+export default SurveyService;

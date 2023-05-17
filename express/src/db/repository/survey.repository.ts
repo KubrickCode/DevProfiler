@@ -3,29 +3,29 @@ import { Survey } from "../db.type";
 const prisma = new PrismaClient();
 
 class SurveyRepository {
-  async create(user_id: number, category: string, response: number[]) {
+  create = async (user_id: number, category: string, response: number[]) => {
     return await prisma.survey.create({
       data: { user_id, category, response },
     });
-  }
+  };
 
-  async delete(id: number) {
+  delete = async (id: number) => {
     return await prisma.survey.delete({
       where: { id },
     });
-  }
+  };
 
-  async deleteAllByUserId(user_id: number) {
+  deleteAllByUserId = async (user_id: number) => {
     return await prisma.survey.deleteMany({ where: { user_id } });
-  }
+  };
 
-  async get(user_id: number) {
+  get = async (user_id: number) => {
     return await prisma.survey.findMany({
       where: { user_id },
     });
-  }
+  };
 
-  async update(id: number, response: number[]) {
+  update = async (id: number, response: number[]) => {
     return await prisma.survey.update({
       where: {
         id,
@@ -34,7 +34,7 @@ class SurveyRepository {
         response,
       },
     });
-  }
+  };
 }
 
-export default new SurveyRepository();
+export default SurveyRepository;
