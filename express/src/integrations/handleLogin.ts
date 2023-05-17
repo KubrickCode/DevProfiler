@@ -99,6 +99,29 @@ class HandleLogin {
       )(req, res, next);
     });
   };
+
+  kakaoAuthenticate = () => {
+    return passport.authenticate("kakao");
+  };
+
+  kakaoCallbackAuthenticate = (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return new Promise((resolve, reject) => {
+      passport.authenticate(
+        "kakao",
+        { session: false },
+        (err: any, user: User) => {
+          if (err) {
+            reject(err.message);
+          }
+          resolve(user);
+        }
+      )(req, res, next);
+    });
+  };
 }
 
 export default HandleLogin;

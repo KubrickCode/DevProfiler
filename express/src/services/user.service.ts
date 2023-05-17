@@ -76,6 +76,26 @@ class UserService {
       next
     )) as User;
   };
+
+  kakaoLoginService = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return await this.handleLogin.kakaoAuthenticate()(req, res, next);
+  };
+
+  kakaoCallbackService = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    return (await this.handleLogin.kakaoCallbackAuthenticate(
+      req,
+      res,
+      next
+    )) as User;
+  };
 }
 
 export default UserService;

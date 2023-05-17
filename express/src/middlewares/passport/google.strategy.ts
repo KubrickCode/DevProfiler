@@ -18,8 +18,9 @@ const googleStrategy = new GoogleStrategy(
   async (accessToken, refreshToken, profile, done) => {
     try {
       const email = profile._json.email as string;
-      const existingUser = await getUserService(email);
       const provider = "Google";
+
+      const existingUser = await getUserService(email);
 
       if (existingUser) {
         const { id, email, provider } = existingUser;

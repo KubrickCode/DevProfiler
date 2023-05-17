@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import UserService from "../services/user.service";
-
+import dotenv from "dotenv";
+dotenv.config();
 class UserController {
   constructor(private userService: UserService) {}
 
@@ -94,7 +95,37 @@ class UserController {
     const { token, refreshToken } =
       await this.userService.googleCallbackService(req, res, next);
 
-    console.log(token, refreshToken);
+    res
+      .status(303)
+      .redirect(
+        `${process.env.REDIRECT_ROOT}/authorize?token=${token}&refreshToken=${refreshToken}`
+      );
+  };
+
+  kakaoLoginController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    await this.userService.kakaoLoginService(req, res, next);
+  };
+
+  kakaoCallbackController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    const { token, refreshToken } = await this.userService.kakaoCallbackService(
+      req,
+      res,
+      next
+    );
+
+    res
+      .status(303)
+      .redirect(
+        `${process.env.REDIRECT_ROOT}/authorize?token=${token}&refreshToken=${refreshToken}`
+      );
   };
 }
 

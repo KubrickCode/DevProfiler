@@ -6,6 +6,7 @@ import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
 import { userService } from "../../dependency/user.dependency";
 import googleStrategy from "./google.strategy";
+import kakaoStrategy from "./kakao.strategy";
 
 const initializePassport = () => {
   passport.serializeUser((user, done) => {
@@ -23,6 +24,7 @@ const initializePassport = () => {
 
   passport.use(jwtStrategy);
   passport.use(googleStrategy);
+  passport.use(kakaoStrategy);
 
   return passport;
 };

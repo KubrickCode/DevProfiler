@@ -1,62 +1,52 @@
-// import { Strategy as KakaoStrategy } from "passport-kakao";
-// import { kakaoConfig } from "../../shared/config";
-// import {
-//   handdlePassword,
-//   handleLogin,
-//   redis,
-//   userRepository,
-//   userService,
-// } from "../../dependency/user.dependency";
-// import dotenv from "dotenv";
-// dotenv.config();
+import { Strategy as KakaoStrategy } from "passport-kakao";
+import { kakaoConfig } from "../../shared/config";
+import {
+  handleLogin,
+  redis,
+  userRepository,
+  userService,
+} from "../../dependency/user.dependency";
+import dotenv from "dotenv";
+import { User } from "../../db/db.type";
+dotenv.config();
 
-// const { signJWT } = handleLogin;
-// const { getUserService } = userService;
-// const { create } = userRepository;
-// const { storeRefreshToken } = redis;
-// const { hashPassword, getRandomPassword } = handdlePassword;
+const { signJWT } = handleLogin;
+const { getUserService } = userService;
+const { create } = userRepository;
+const { storeRefreshToken } = redis;
 
-// const kakaoStrategy = new KakaoStrategy(
-//   kakaoConfig,
-//   async (accessToken, refreshToken, profile, done) => {
-//     try {
-//       const email = profile.id + "@kakao.com";
-//       const displayName = profile.displayName;
+const kakaoStrategy = new KakaoStrategy(
+  kakaoConfig,
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      const email = profile.id + "@kakao.com";
+      const provider = "Kakao";
 
-//       const existingUser = await User.getUserByEmail(email);
+      const existingUser = await getUserService(email);
 
-//       if (existingUser) {
-//         const { id } = existingUser;
-//         const { token, refreshToken } = signJWT({
-//           id,
-//           email,
-//           nickname: displayName,
-//         });
-//         return done(null, { ...existingUser, token, refreshToken });
-//       }
+      if (existingUser) {
+        const { id, email, provider } = existingUser;
+        const { token, refreshToken } = signJWT({ id, email, provider });
+        await storeRefreshToken(id, refreshToken);
+        return done(null, { id, email, token, provider, refreshToken });
+      }
 
-//       const hashedPassword = await hashPassword(getRandomPassword());
+      await create({
+        email,
+        provider,
+      });
 
-//       await User.createUser({
-//         email,
-//         nickname: displayName,
-//         password: hashedPassword,
-//       });
+      const savedUser = await getUserService(email);
+      const { id } = savedUser!;
 
-//       const savedUser = await User.getUserByEmail(email as string);
-//       const { id } = savedUser;
+      const { token, refreshToken } = signJWT({ id, email, provider });
+      await storeRefreshToken(id, refreshToken);
 
-//       const { token, refreshToken } = signJWT({
-//         id,
-//         email,
-//         nickname: displayName,
-//       });
+      done(null, { ...savedUser, token, refreshToken } as User);
+    } catch (err) {
+      done(err);
+    }
+  }
+);
 
-//       done(null, { ...savedUser, token, refreshToken });
-//     } catch (err) {
-//       done(err);
-//     }
-//   }
-// );
-
-// export default kakaoStrategy;
+export default kakaoStrategy;
