@@ -1,4 +1,4 @@
-import userRepository from "../../../db/repository/user.repository";
+import { userRepository } from "../../../dependency/user.dependency";
 
 export const deleteUserRepositorySuccess = async () => {
   const mockUserId = 43;

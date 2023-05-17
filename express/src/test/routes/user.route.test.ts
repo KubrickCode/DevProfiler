@@ -1,7 +1,7 @@
 // user.route.test.ts
 import request from "supertest";
 import { app } from "../..";
-import { connectRedis, disconnectRedis } from "../../db/Redis";
+import { redis } from "../../dependency/user.dependency";
 import { checkPasswordRouteSuccess } from "./user/checkPassword.route.helper";
 import { updateUserRouteSuccess } from "./user/updateUser.route.helper";
 import { createUserRouteSuccess } from "./user/createUser.route.helper";
@@ -9,11 +9,11 @@ import { deleteUserRouteSuccess } from "./user/deleteUser.route.helper";
 
 describe("/api/user", () => {
   beforeAll(async () => {
-    await connectRedis();
+    await redis.connect();
   });
 
   afterAll(() => {
-    disconnectRedis();
+    redis.disconnect();
   });
 
   describe.only("createUserRoute", () => {
@@ -56,7 +56,9 @@ describe("/api/user", () => {
   it("loginRoute", async () => {
     const res = await request(app)
       .post("/api/user/login")
-      .send({ email: "test@gmail.com", password: "" });
+      .send({ email: "test@gmail.com", password: "test1234!@" });
+
+    console.log(res.body.token);
 
     expect(res.statusCode).toEqual(201);
     expect(res.body).toHaveProperty("refreshToken");

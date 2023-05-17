@@ -1,14 +1,14 @@
-import { comparePassword, hashPassword } from "../integrations/handlePassword";
+import HandlePassword from "../integrations/handlePassword";
 import { User } from "../db/db.type";
 import UserRepository from "../db/repository/user.repository";
 import HandleLogin from "../integrations/handleLogin";
-import surveyRepository from "../db/repository/survey.repository";
 import { surveyService } from "../dependency/survey.dependency";
 
 class UserService {
   constructor(
     private userRepository: UserRepository,
-    private handleLogin: HandleLogin
+    private handleLogin: HandleLogin,
+    private handlePassword: HandlePassword
   ) {}
 
   getUserService = async (_email: string) => {
@@ -29,7 +29,7 @@ class UserService {
     const { email, password } = user;
     const isExistUser = await this.userRepository.getUserByEmail(email);
     if (isExistUser) return { message: "이미 존재하는 이메일입니다" };
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await this.handlePassword.hashPassword(password);
     await this.userRepository.create({
       email,
       password: hashedPassword,
@@ -38,7 +38,7 @@ class UserService {
   };
 
   updateUserService = async (id: number, password: string) => {
-    const hashedPassword = await hashPassword(password);
+    const hashedPassword = await this.handlePassword.hashPassword(password);
     return await this.userRepository.update(id, hashedPassword);
   };
 
@@ -49,7 +49,10 @@ class UserService {
 
   checkPasswordService = async (email: string, password: string) => {
     const user = await this.userRepository.getUserByEmail(email);
-    return await comparePassword(password, user?.password as string);
+    return await this.handlePassword.comparePassword(
+      password,
+      user?.password as string
+    );
   };
 }
 

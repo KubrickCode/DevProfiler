@@ -1,4 +1,4 @@
-import userService from "../../../services/user.service";
+import { userService } from "../../../dependency/user.dependency";
 
 export const deleteUserServiceSuccess = async () => {
   const mockUserId = 42;

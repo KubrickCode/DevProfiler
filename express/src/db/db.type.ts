@@ -1,7 +1,9 @@
 export interface User {
   id: number;
   email: string;
-  password: string;
+  password?: string;
+  token?: string;
+  refreshToken?: string;
 }
 
 export interface Survey {

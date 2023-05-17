@@ -1,5 +1,5 @@
-import { comparePassword } from "../../../integrations/handlePassword";
-import userService from "../../../services/user.service";
+import { handdlePassword } from "../../../dependency/user.dependency";
+import { userService } from "../../../dependency/user.dependency";
 
 export const updateUserServiceSuccess = async () => {
   const mockData = {
@@ -11,5 +11,7 @@ export const updateUserServiceSuccess = async () => {
     mockData.password
   );
 
-  expect(comparePassword(mockData.password, result.password)).toBeTruthy();
+  expect(
+    handdlePassword.comparePassword(mockData.password, result.password)
+  ).toBeTruthy();
 };

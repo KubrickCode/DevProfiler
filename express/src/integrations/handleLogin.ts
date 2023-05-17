@@ -1,13 +1,17 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { getRefreshToken, storeRefreshToken } from "../db/Redis";
+import Redis from "../db/Redis";
 import { User } from "../db/db.type";
-import { comparePassword } from "./handlePassword";
+import HandlePassword from "./handlePassword";
 import UserRepository from "../db/repository/user.repository";
 dotenv.config();
 
 class HandleLogin {
-  constructor(private userRepository: UserRepository) {}
+  constructor(
+    private userRepository: UserRepository,
+    private handlePassword: HandlePassword,
+    private redis: Redis
+  ) {}
 
   signJWT(payload: { id: number; email: string }) {
     const secret = process.env.JWT_SECRET!;
@@ -26,7 +30,7 @@ class HandleLogin {
     return { token, refreshToken };
   }
 
-  async verifyRefreshToken(refreshToken: string) {
+  verifyRefreshToken = async (refreshToken: string) => {
     const refreshSecret = process.env.JWT_REFRESH_SECRET!;
 
     return new Promise((resolve, reject) => {
@@ -36,7 +40,7 @@ class HandleLogin {
         }
 
         const { id, email } = user as User;
-        const existingRefreshToken = await getRefreshToken(id);
+        const existingRefreshToken = await this.redis.getRefreshToken(id);
 
         if (!existingRefreshToken || existingRefreshToken !== refreshToken) {
           return resolve(false);
@@ -47,14 +51,14 @@ class HandleLogin {
         resolve(newToken);
       });
     });
-  }
+  };
 
-  async loginAuthenticate(email: string, password: string) {
+  loginAuthenticate = async (email: string, password: string) => {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
       return { message: "존재하지 않는 계정입니다" };
     }
-    const comparePasswordResult = await comparePassword(
+    const comparePasswordResult = await this.handlePassword.comparePassword(
       password,
       user?.password as string
     );
@@ -63,9 +67,9 @@ class HandleLogin {
     }
     const { id } = user as User;
     const { token, refreshToken } = this.signJWT({ email, id });
-    await storeRefreshToken(id, refreshToken);
+    await this.redis.storeRefreshToken(id, refreshToken);
     return { token, refreshToken };
-  }
+  };
 }
 
 export default HandleLogin;

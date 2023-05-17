@@ -4,7 +4,7 @@ import cors from "cors";
 import helmet from "helmet";
 import { initializePassport } from "./middlewares/passport";
 import "express-async-errors";
-import { connectRedis } from "./db/Redis";
+import { redis } from "./dependency/user.dependency";
 
 export const app = express();
 const passport = initializePassport();
@@ -31,7 +31,7 @@ export const startServer = async () => {
 if (process.env.NODE_ENV !== "test") {
   (async () => {
     await startServer();
-    await connectRedis();
+    await redis.connect();
   })();
 }
 

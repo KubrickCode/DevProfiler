@@ -1,4 +1,4 @@
-import surveyRepository from "../../../db/repository/survey.repository";
+import { surveyRepository } from "../../../dependency/survey.dependency";
 
 export const deleteSurveyRepositorySuccess = async () => {
   const mockId = 13;

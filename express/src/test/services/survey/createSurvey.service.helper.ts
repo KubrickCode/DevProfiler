@@ -1,4 +1,4 @@
-import surveyService from "../../../services/survey.service";
+import { surveyService } from "../../../dependency/survey.dependency";
 
 export const createSurveyServiceSuccess = async () => {
   const mockData = {

@@ -6,7 +6,7 @@ import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
 import { userService } from "../../dependency/user.dependency";
 
-export const initializePassport = () => {
+const initializePassport = () => {
   passport.serializeUser((user, done) => {
     done(null, user.email);
   });
@@ -25,11 +25,7 @@ export const initializePassport = () => {
   return passport;
 };
 
-export const validateJWT = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const validateJWT = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate(
     "jwt",
     { session: false },
@@ -51,3 +47,5 @@ export const validateJWT = (
     }
   )(req, res, next);
 };
+
+export { initializePassport, validateJWT };

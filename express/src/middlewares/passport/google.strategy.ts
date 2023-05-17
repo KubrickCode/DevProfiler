@@ -1,44 +1,50 @@
-// import { Strategy as GoogleStrategy } from "passport-google-oauth20";
-// import userRepository from "../../db/repository/user.repository";
-// import { googleConfig } from "../../shared/config";
-// import { hashPassword } from "../../integrations/handlePassword";
-// import { getRandomPassword } from "../../integrations/handlePassword";
-// import { signJWT } from "../../integrations/handleLogin";
-// import { storeRefreshToken } from "../../db/Redis";
+import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { googleConfig } from "../../shared/config";
+import {
+  handdlePassword,
+  handleLogin,
+  redis,
+  userService,
+} from "../../dependency/user.dependency";
 
-// const googleStrategy = new GoogleStrategy(
-//   googleConfig,
-//   async (accessToken, refreshToken, profile, done) => {
-//     try {
-//       const email = profile._json.email as string;
-//       const existingUser = await userRepository.getUserByEmail(email);
+const { signJWT } = handleLogin;
+const { getUserService, createUserService } = userService;
+const { storeRefreshToken } = redis;
+const { hashPassword, getRandomPassword } = handdlePassword;
 
-//       if (existingUser) {
-//         const { id } = existingUser;
-//         const { token, refreshToken } = signJWT({ id, email });
-//         await storeRefreshToken(id, refreshToken);
-//         return done(null, { ...existingUser, token, refreshToken });
-//       }
+const googleStrategy = new GoogleStrategy(
+  googleConfig,
+  async (accessToken, refreshToken, profile, done) => {
+    try {
+      const email = profile._json.email as string;
+      const existingUser = await getUserService(email);
 
-//       const hashedPassword = await hashPassword(getRandomPassword());
+      if (existingUser) {
+        const { id, email } = existingUser;
+        const { token, refreshToken } = signJWT({ id, email });
+        await storeRefreshToken(id, refreshToken);
+        return done(null, { id, email, token, refreshToken });
+      }
 
-//       await userRepository.create({
-//         email,
-//         password: hashedPassword,
-//       });
+      const hashedPassword = await hashPassword(getRandomPassword());
 
-//       const savedUser = await userRepository.getUserByEmail(email);
+      await createUserService({
+        email,
+        password: hashedPassword,
+      });
 
-//       const { id } = savedUser;
+      const savedUser = await getUserService(email);
 
-//       const { token, refreshToken } = signJWT({ id, email, nickname: name });
-//       await storeRefreshToken(id, refreshToken);
+      const { id } = savedUser;
 
-//       done(null, { ...savedUser, token, refreshToken });
-//     } catch (err: any) {
-//       done(err);
-//     }
-//   }
-// );
+      const { token, refreshToken } = signJWT({ id, email });
+      await storeRefreshToken(id, refreshToken);
 
-// export default googleStrategy;
+      done(null, { ...savedUser, token, refreshToken });
+    } catch (err: any) {
+      done(err);
+    }
+  }
+);
+
+export default googleStrategy;

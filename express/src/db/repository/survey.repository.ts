@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import { Survey } from "../db.type";
 const prisma = new PrismaClient();
 
 class SurveyRepository {

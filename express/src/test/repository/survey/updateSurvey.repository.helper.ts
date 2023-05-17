@@ -1,4 +1,4 @@
-import surveyRepository from "../../../db/repository/survey.repository";
+import { surveyRepository } from "../../../dependency/survey.dependency";
 
 export const updateSurveyRepositorySuccess = async () => {
   const mockData = {
