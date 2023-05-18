@@ -14,5 +14,5 @@ export interface Survey {
   response: number[];
 }
 
-export type Provider = "Local" | "Google" | "Kakao" | "Github";
+export type Provider = "Local" | "Google" | "Kakao";
 export type Category = "FrontEnd" | "BackEnd";

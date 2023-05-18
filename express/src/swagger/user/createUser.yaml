@@ -1,0 +1,31 @@
+paths:
+  /api/user:
+    post:
+      tags:
+        - User
+      summary: 회원가입
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 이메일 주소
+                password:
+                  type: string
+                  description: 비밀번호
+      responses:
+        201:
+          description: |
+            회원가입 성공. 이 작업은 User스키마의 일부 정보를 반환합니다.
+
+            제공되는 정보:
+            - `token`: JWT 엑세스 토큰
+            - `refreshToken`: JWT 리프레쉬 토큰
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"

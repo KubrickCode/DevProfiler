@@ -5,6 +5,8 @@ import helmet from "helmet";
 import { initializePassport } from "./middlewares/passport";
 import "express-async-errors";
 import { redis } from "./dependency/user.dependency";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpecs } from "./swagger/swaggerOption";
 
 export const app = express();
 const passport = initializePassport();
@@ -15,6 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
+app.get("/", (req, res) => {
+  res.send("Hello Express!");
+});
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use("/api", router);
 
 app.use(((err, req, res, next) => {

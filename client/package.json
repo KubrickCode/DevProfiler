@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "start": "serve -s dist -l 5173",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
@@ -23,6 +24,7 @@
     "react-dom": "^18.2.0",
     "react-query": "^3.39.3",
     "react-router-dom": "^6.11.1",
+    "serve": "^14.2.0",
     "zustand": "^4.3.8"
   },
   "devDependencies": {

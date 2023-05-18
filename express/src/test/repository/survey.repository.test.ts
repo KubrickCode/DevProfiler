@@ -1,4 +1,3 @@
-// user.repository.test.ts
 import { surveyRepository } from "../../dependency/survey.dependency";
 import { startServer } from "../..";
 import { updateSurveyRepositorySuccess } from "./survey/updateSurvey.repository.helper";

@@ -1,6 +1,7 @@
-// index.ts
+/// <reference types="../../shared/passport-custom.d.ts" />
+
 import passport from "passport";
-import jwtStrategy from "./jwt.strategy"; // import JWT strategy
+import jwtStrategy from "./jwt.strategy";
 import { NextFunction, Request, Response } from "express";
 import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
