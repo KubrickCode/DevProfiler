@@ -1,4 +1,4 @@
-export const FrontEndSurveyTitle = [
+const FrontEndSurveyTitle = [
   "사용자 인터페이스 디자인(1/5)",
   "자바스크립트 및 프레임워크 숙련도(2/5)",
   "성능 최적화(3/5)",
@@ -6,7 +6,7 @@ export const FrontEndSurveyTitle = [
   "협업 및 버전 관리(5/5)",
 ];
 
-export const FrontEndSurveyData = [
+const FrontEndSurveyData = [
   [
     {
       content:
@@ -122,3 +122,5 @@ export const FrontEndSurveyData = [
     { content: "코드 리뷰에 자주 참여하시나요?", id: 25 },
   ],
 ];
+
+export { FrontEndSurveyTitle, FrontEndSurveyData };

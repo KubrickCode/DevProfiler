@@ -1,6 +1,6 @@
-import userService from "../../../services/user.service";
+import { userService } from "../../../dependency/user.dependency";
 
-export const checkPasswordServiceSuccess = async () => {
+const checkPasswordServiceSuccess = async () => {
   const mockData = {
     email: "test@gmail.com",
     password: "",
@@ -12,3 +12,5 @@ export const checkPasswordServiceSuccess = async () => {
 
   expect(result).toBeTruthy();
 };
+
+export { checkPasswordServiceSuccess };

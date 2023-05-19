@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from "axios";
 
 const host = import.meta.env.VITE_SERVER_HOST;
 
-export type method = "post" | "patch" | "put" | "delete";
+type MethodType = "post" | "patch" | "put" | "delete";
 
 const api = axios.create({
   baseURL: host,
@@ -27,7 +27,7 @@ api.interceptors.response.use(
       throw error;
     }
 
-    if (error.config.url === "/user/refresh") {
+    if (error.config.url === "/auth/refresh") {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       localStorage.removeItem("persistStore");
@@ -41,7 +41,7 @@ api.interceptors.response.use(
     }
 
     try {
-      const response = await api.post("/user/refresh", null, {
+      const response = await api.post("/auth/refresh", null, {
         headers: { "x-refresh-token": refreshToken },
       });
 
@@ -58,7 +58,7 @@ api.interceptors.response.use(
   }
 );
 
-export const useQueryGet = (link: string, key: string, queryOptions = {}) => {
+const useQueryGet = (link: string, key: string, queryOptions = {}) => {
   const queryFunc = async () => {
     const response = await api.get(link);
     return response.data;
@@ -71,7 +71,7 @@ export const useQueryGet = (link: string, key: string, queryOptions = {}) => {
   });
 };
 
-export const useQueryMutate = (link: string, method: method) => {
+const useQueryMutate = (link: string, method: MethodType) => {
   const mutation = useMutation(
     async (req: { body?: object; config?: AxiosRequestConfig }) => {
       const response = await api[method](link, req?.body, req?.config);
@@ -86,3 +86,6 @@ export const useQueryMutate = (link: string, method: method) => {
     mutate: mutation.mutate,
   };
 };
+
+export type { MethodType };
+export { useQueryGet, useQueryMutate };

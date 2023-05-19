@@ -1,12 +1,20 @@
-export interface User {
+interface User {
   id: number;
   email: string;
-  password: string;
+  provider: Provider;
+  password?: string;
+  token?: string;
+  refreshToken?: string;
 }
 
-export interface Survey {
+interface Survey {
   id?: number;
   user_id: number;
-  category: string;
+  category: Category;
   response: number[];
 }
+
+type Provider = "Local" | "Google" | "Kakao";
+type Category = "FrontEnd" | "BackEnd";
+
+export { User, Survey, Provider, Category };

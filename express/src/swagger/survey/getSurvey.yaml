@@ -1,0 +1,15 @@
+paths:
+  /api/survey:
+    get:
+      tags:
+        - Survey
+      summary: 검사 결과 제공
+      security:
+        - BearerAuth: []
+      responses:
+        201:
+          description: 검사 결과 제공 성공. 이 작업은 Survey스키마가 0~2개 포함된 배열을 반환합니다.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Survey"

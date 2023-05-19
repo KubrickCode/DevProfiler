@@ -1,4 +1,3 @@
-// user.service.test.ts
 import { createSurveyServiceSuccess } from "./survey/createSurvey.service.helper";
 import { deleteSurveyServiceSuccess } from "./survey/deleteSurvey.service.helper";
 import { getSurveyServiceSuccess } from "./survey/getSurvey.service.helper";

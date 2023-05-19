@@ -1,7 +1,9 @@
-import userRepository from "../../../db/repository/user.repository";
+import { userRepository } from "../../../dependency/auth.dependency";
 
-export const deleteUserRepositorySuccess = async () => {
+const deleteUserRepositorySuccess = async () => {
   const mockUserId = 43;
   const result = await userRepository.delete(mockUserId);
   expect(result.id).toEqual(mockUserId);
 };
+
+export { deleteUserRepositorySuccess };

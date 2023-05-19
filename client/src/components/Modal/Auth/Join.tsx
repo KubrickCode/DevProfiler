@@ -24,7 +24,7 @@ const Join: FC = () => {
   const surveyResponse = useSurveyStore((state) => state.surveyResponse);
   const surveyType = useSurveyStore((state) => state.surveyType);
 
-  const { mutate: join } = useSign("/user");
+  const { mutate: join } = useSign("/auth");
   const { mutate: setResponse } = useQueryMutate("/survey", "post");
 
   useEffect(() => {

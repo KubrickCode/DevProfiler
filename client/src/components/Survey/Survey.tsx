@@ -3,7 +3,7 @@ import { FrontEndSurveyTitle } from "./SurveyData/FrontEnd";
 import { BackEndSurveyData, BackEndSurveyTitle } from "./SurveyData/BackEnd";
 import { FrontEndSurveyData } from "./SurveyData/FrontEnd";
 import CustomRadio from "./CustomRadio";
-import Evaluation from "./Evaluation";
+import Evaluation from "./Evaluation/Evaluation";
 import { useSurveyStore } from "../../store/SurveyStore";
 import { useQueryGet, useQueryMutate } from "../../hooks/useQueryFetch";
 import { SurveyType } from "../MyPage/MyPage";

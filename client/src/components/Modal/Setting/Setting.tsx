@@ -2,6 +2,7 @@ import { FC, useState } from "react";
 import { useSettingModalStore } from "../../../store/ModalStore";
 import ChangePassword from "./ChangePassword";
 import DropUser from "./DropUser";
+import { useQueryGet } from "../../../hooks/useQueryFetch";
 
 const Setting: FC = () => {
   const settingModalState = useSettingModalStore(
@@ -10,6 +11,8 @@ const Setting: FC = () => {
   const setSettingModalState = useSettingModalStore(
     (state) => state.setSettingModalState
   );
+  const isLogin = localStorage.getItem("token") ? true : false;
+  const { data } = useQueryGet("/user", "getUser", { enabled: !!isLogin });
 
   const [changeMode, setChangeMode] = useState(false);
   const [dropMode, setDropMode] = useState(false);
@@ -41,12 +44,15 @@ const Setting: FC = () => {
               />
             </svg>
           </h4>
-          <ChangePassword
-            changeMode={changeMode}
-            setChangeMode={setChangeMode}
-            setDropMode={setDropMode}
-          />
+          {data?.provider === "Local" && (
+            <ChangePassword
+              changeMode={changeMode}
+              setChangeMode={setChangeMode}
+              setDropMode={setDropMode}
+            />
+          )}
           <DropUser
+            data={data}
             dropMode={dropMode}
             setDropMode={setDropMode}
             setChangeMode={setChangeMode}

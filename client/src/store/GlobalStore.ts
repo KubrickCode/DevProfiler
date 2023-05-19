@@ -8,10 +8,12 @@ const persistStore: StateCreator<PersistStoreType> = (set) => ({
     set((state) => ({ theme: state.theme === "dark" ? "light" : "dark" })),
 });
 
-export const usePersistStore = create<PersistStoreType>(
+const usePersistStore = create<PersistStoreType>(
   devtools(
     persist(persistStore, {
       name: "persistStore",
     })
   ) as unknown as StateCreator<PersistStoreType>
 );
+
+export { usePersistStore };

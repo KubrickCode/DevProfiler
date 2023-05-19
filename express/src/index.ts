@@ -4,9 +4,11 @@ import cors from "cors";
 import helmet from "helmet";
 import { initializePassport } from "./middlewares/passport";
 import "express-async-errors";
-import { connectRedis } from "./db/Redis";
+import { redis } from "./dependency/auth.dependency";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpecs } from "./swagger/swaggerOption";
 
-export const app = express();
+const app = express();
 const passport = initializePassport();
 
 app.use(cors());
@@ -15,6 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.initialize());
 
+app.get("/", (req, res) => {
+  res.send("Hello Express!");
+});
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 app.use("/api", router);
 
 app.use(((err, req, res, next) => {
@@ -24,13 +31,15 @@ app.use(((err, req, res, next) => {
     .json({ message: err.message || "서버 실행 오류" });
 }) as ErrorRequestHandler);
 
-export const startServer = () => {
-  return app.listen(3001, () => console.log("3001번 포트에서 Express 실행"));
+const startServer = async () => {
+  return app.listen(3000, () => console.log("3000번 포트에서 Express 실행"));
 };
 
 if (process.env.NODE_ENV !== "test") {
-  connectRedis();
-  startServer();
+  (async () => {
+    await startServer();
+    await redis.connect();
+  })();
 }
 
-export default app;
+export { app, startServer };

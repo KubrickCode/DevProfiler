@@ -1,24 +1,17 @@
 import { Router } from "express";
-import {
-  checkPasswordController,
-  createUserController,
-  deleteUserController,
-  getUserContoller,
-  loginController,
-  refreshTokenController,
-  updateUserController,
-} from "../controllers/user.controller";
-import { validateBody } from "../middlewares/validateDto";
-import { userDto } from "../dto/user.dto";
-import { validateJWT } from "../middlewares/passport";
-const router = Router();
+import { userController } from "../dependency/user.dependency";
 
-router.get("/", validateJWT, getUserContoller);
-router.get("/refresh", refreshTokenController);
-router.post("/", validateBody(userDto), createUserController);
-router.post("/login", loginController);
-router.post("/check-password", validateJWT, checkPasswordController);
-router.patch("/", validateJWT, updateUserController);
-router.delete("/", validateJWT, deleteUserController);
+const router = Router();
+const {
+  getUserContoller,
+  checkPasswordController,
+  updateUserController,
+  deleteUserController,
+} = userController;
+
+router.get("/", getUserContoller);
+router.patch("/", updateUserController);
+router.delete("/", deleteUserController);
+router.post("/check-password", checkPasswordController);
 
 export default router;

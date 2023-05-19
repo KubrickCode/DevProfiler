@@ -1,6 +1,7 @@
-import surveyService from "../../../services/survey.service";
+import { Category } from "../../../db/db.type";
+import { surveyService } from "../../../dependency/survey.dependency";
 
-export const createSurveyServiceSuccess = async () => {
+const createSurveyServiceSuccess = async () => {
   const mockData = {
     user_id: 42,
     category: "FrontEnd",
@@ -11,10 +12,12 @@ export const createSurveyServiceSuccess = async () => {
   const { user_id, category, response } = mockData;
   const survey = await surveyService.createSurveyService(
     user_id,
-    category,
+    category as Category,
     response
   );
   expect(survey.user_id).toEqual(mockData.user_id);
   expect(survey.category).toEqual(mockData.category);
   expect(survey.response).toEqual(mockData.response);
 };
+
+export { createSurveyServiceSuccess };

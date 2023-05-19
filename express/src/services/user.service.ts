@@ -1,53 +1,37 @@
-import { comparePassword, hashPassword } from "../integrations/handlePassword";
+import HandlePassword from "../integrations/handlePassword";
 import { User } from "../db/db.type";
-import userRepository from "../db/repository/user.repository";
-import {
-  loginAuthenticate,
-  verifyRefreshToken,
-} from "../integrations/handleLogin";
-import surveyRepository from "../db/repository/survey.repository";
+import UserRepository from "../db/repository/user.repository";
+import { surveyService } from "../dependency/survey.dependency";
 
 class UserService {
-  async getUserService(_email: string) {
-    const result = await userRepository.getUserByEmail(_email);
-    const { id, email } = result as User;
-    return { id, email };
-  }
+  constructor(
+    private userRepository: UserRepository,
+    private handlePassword: HandlePassword
+  ) {}
 
-  async loginService(email: string, password: string) {
-    return await loginAuthenticate(email, password);
-  }
+  getUserService = async (_email: string) => {
+    const result = await this.userRepository.getUserByEmail(_email);
+    if (!result) {
+      return null;
+    }
+    const { id, email, provider } = result as User;
+    return { id, email, provider };
+  };
 
-  async refreshTokenService(refreshToken: string) {
-    return await verifyRefreshToken(refreshToken);
-  }
+  updateUserService = async (id: number, password: string) => {
+    const hashedPassword = await this.handlePassword.hashPassword(password);
+    return await this.userRepository.update(id, hashedPassword);
+  };
 
-  async createUserService(user: Omit<User, "id">) {
-    const { email, password } = user;
-    const isExistUser = await userRepository.getUserByEmail(email);
-    if (isExistUser) return { message: "이미 존재하는 이메일입니다" };
-    const hashedPassword = await hashPassword(password);
-    await userRepository.create({
-      email,
-      password: hashedPassword,
-    });
-    return await loginAuthenticate(email, password);
-  }
+  deleteUserService = async (id: number) => {
+    await surveyService.deleteAllByUserId(id);
+    return await this.userRepository.delete(id);
+  };
 
-  async updateUserService(id: number, password: string) {
-    const hashedPassword = await hashPassword(password);
-    return await userRepository.update(id, hashedPassword);
-  }
-
-  async deleteUserService(id: number) {
-    await surveyRepository.deleteAllByUserId(id);
-    return await userRepository.delete(id);
-  }
-
-  async checkPasswordService(email: string, password: string) {
-    const user = await userRepository.getUserByEmail(email);
-    return await comparePassword(password, user?.password as string);
-  }
+  checkPasswordService = async (email: string, password: string) => {
+    const user = await this.userRepository.getUserByEmail(email);
+    return await this.handlePassword.comparePassword(password, user?.password!);
+  };
 }
 
-export default new UserService();
+export default UserService;

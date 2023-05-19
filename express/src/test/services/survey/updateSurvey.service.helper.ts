@@ -1,6 +1,6 @@
-import surveyService from "../../../services/survey.service";
+import { surveyService } from "../../../dependency/survey.dependency";
 
-export const updateSurveyServiceSuccess = async () => {
+const updateSurveyServiceSuccess = async () => {
   const mockData = {
     id: 13,
     response: [
@@ -12,3 +12,5 @@ export const updateSurveyServiceSuccess = async () => {
   expect(survey.id).toEqual(mockData.id);
   expect(survey.response).toEqual(mockData.response);
 };
+
+export { updateSurveyServiceSuccess };

@@ -44,7 +44,7 @@ const Auth: FC = () => {
             <button
               className={`${
                 tab === "Join" && "hidden"
-              } mt-7 text-blue-500 hover:text-blue-800`}
+              } mt-7 text-blue-500 hover:text-blue-400`}
               onClick={() => setTab("Join")}
             >
               아직 계정이 없으신가요? 가입 하러가기
@@ -52,7 +52,7 @@ const Auth: FC = () => {
             <button
               className={`${
                 tab === "Login" && "hidden"
-              } mt-7 text-blue-500 hover:text-blue-800`}
+              } mt-7 text-blue-500 hover:text-blue-400`}
               onClick={() => setTab("Login")}
             >
               이미 계정이 있으신가요? 로그인 하러가기

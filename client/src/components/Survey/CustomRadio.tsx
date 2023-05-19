@@ -1,12 +1,12 @@
 import { FC } from "react";
 
-interface CustomRadioProps {
+interface OwnProps {
   id: number;
   value: number | null;
   setValue: (id: number, value: number) => void;
 }
 
-const CustomRadio: FC<CustomRadioProps> = ({ id, value, setValue }) => {
+const CustomRadio: FC<OwnProps> = ({ id, value, setValue }) => {
   return (
     <div className="relative w-fit mx-auto pt-2">
       <span className="absolute top-0 left-1 dark:text-neutral-300">

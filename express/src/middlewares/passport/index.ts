@@ -1,12 +1,15 @@
-// index.ts
+/// <reference types="../../shared/passport-custom.d.ts" />
+
 import passport from "passport";
-import jwtStrategy from "./jwt.strategy"; // import JWT strategy
-import userService from "../../services/user.service";
+import jwtStrategy from "./jwt.strategy";
 import { NextFunction, Request, Response } from "express";
 import { TokenExpiredError } from "jsonwebtoken";
 import { User } from "../../db/db.type";
+import { userService } from "../../dependency/user.dependency";
+import googleStrategy from "./google.strategy";
+import kakaoStrategy from "./kakao.strategy";
 
-export const initializePassport = () => {
+const initializePassport = () => {
   passport.serializeUser((user, done) => {
     done(null, user.email);
   });
@@ -21,15 +24,13 @@ export const initializePassport = () => {
   });
 
   passport.use(jwtStrategy);
+  passport.use(googleStrategy);
+  passport.use(kakaoStrategy);
 
   return passport;
 };
 
-export const validateJWT = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
+const validateJWT = (req: Request, res: Response, next: NextFunction) => {
   passport.authenticate(
     "jwt",
     { session: false },
@@ -51,3 +52,5 @@ export const validateJWT = (
     }
   )(req, res, next);
 };
+
+export { initializePassport, validateJWT };
