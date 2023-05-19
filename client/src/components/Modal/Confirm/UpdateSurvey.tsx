@@ -11,6 +11,7 @@ const UpdateSurvey: FC = () => {
   const { mutate: updateResponse } = useQueryMutate("/survey", "patch");
 
   const onSubmit = async () => {
+    let storedSurveyResponse = sessionStorage.getItem("surveyResponse");
     const [result] = data.filter(
       (item: SurveyType) => item.category === surveyType
     );
@@ -18,7 +19,9 @@ const UpdateSurvey: FC = () => {
       {
         body: {
           id: result.id,
-          response: surveyResponse,
+          response: storedSurveyResponse
+            ? JSON.parse(storedSurveyResponse)
+            : surveyResponse,
         },
       },
       {

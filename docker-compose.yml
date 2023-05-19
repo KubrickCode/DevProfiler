@@ -1,12 +1,12 @@
 version: "3"
 services:
   client:
-    image: kubrickcode/devprofiler:dp-client
+    image: kubrickcode/devprofiler:client
     networks:
       - app-network
 
   server:
-    image: kubrickcode/devprofiler:dp-express
+    image: kubrickcode/devprofiler:express
     ports:
       - "3000:3000"
     networks:

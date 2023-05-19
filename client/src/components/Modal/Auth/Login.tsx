@@ -72,6 +72,15 @@ const Login: FC = () => {
     );
   };
 
+  const onSocialLogin = async (link: string) => {
+    const host = import.meta.env.VITE_SERVER_HOST;
+    if (surveyState === "complete") {
+      sessionStorage.setItem("surveyType", JSON.stringify(surveyType));
+      sessionStorage.setItem("surveyResponse", JSON.stringify(surveyResponse));
+    }
+    location.href = `${host}/auth/${link}`;
+  };
+
   return (
     <form>
       <h1 className="text-center text-xl font-bold mb-5 dark:text-neutral-300">
@@ -130,7 +139,7 @@ const Login: FC = () => {
         className="border w-full my-2 rounded-lg py-2 shadow-lg bg-white hover:bg-neutral-200 transition-all duration-500"
         onClick={(e) => {
           e.preventDefault();
-          location.href = "http://localhost:3000/api/auth/google";
+          onSocialLogin("google");
         }}
       >
         <img src="/social_logo/google.png" className="w-6 mr-2 inline" />
@@ -140,7 +149,7 @@ const Login: FC = () => {
         className="w-full my-2 rounded-lg py-2 shadow-lg bg-[#FEE500] hover:brightness-90 transition-all duration-500"
         onClick={(e) => {
           e.preventDefault();
-          location.href = "http://localhost:3000/api/auth/kakao";
+          onSocialLogin("kakao");
         }}
       >
         <img src="/social_logo/kakao.png" className="w-5 mr-2 mb-1 inline" />
