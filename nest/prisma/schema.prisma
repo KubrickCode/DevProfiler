@@ -1,0 +1,20 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Board {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String
+  status      BoardStatus   @default(PUBLIC)
+}
+
+enum BoardStatus {
+  PUBLIC
+  PRIVATE
+}
