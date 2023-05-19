@@ -21,7 +21,7 @@ const Login: FC = () => {
     (state) => state.setConfirmModalState
   );
 
-  const { mutate: login } = useSign("/user/login");
+  const { mutate: login } = useSign("/auth/login");
   const { mutate: setResponse } = useQueryMutate("/survey", "post");
 
   const isLogin = localStorage.getItem("token") ? true : false;
@@ -130,7 +130,7 @@ const Login: FC = () => {
         className="border w-full my-2 rounded-lg py-2 shadow-lg bg-white hover:bg-neutral-200 transition-all duration-500"
         onClick={(e) => {
           e.preventDefault();
-          location.href = "http://localhost:3000/api/user/google";
+          location.href = "http://localhost:3000/api/auth/google";
         }}
       >
         <img src="/social_logo/google.png" className="w-6 mr-2 inline" />
@@ -140,7 +140,7 @@ const Login: FC = () => {
         className="w-full my-2 rounded-lg py-2 shadow-lg bg-[#FEE500] hover:brightness-90 transition-all duration-500"
         onClick={(e) => {
           e.preventDefault();
-          location.href = "http://localhost:3000/api/user/kakao";
+          location.href = "http://localhost:3000/api/auth/kakao";
         }}
       >
         <img src="/social_logo/kakao.png" className="w-5 mr-2 mb-1 inline" />

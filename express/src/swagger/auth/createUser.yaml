@@ -1,8 +1,8 @@
 paths:
-  /api/user:
+  /api/auth:
     post:
       tags:
-        - User
+        - Auth
       summary: 회원가입
       requestBody:
         required: true

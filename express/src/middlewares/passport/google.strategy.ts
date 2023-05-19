@@ -4,8 +4,8 @@ import {
   handleLogin,
   redis,
   userRepository,
-  userService,
-} from "../../dependency/user.dependency";
+} from "../../dependency/auth.dependency";
+import { userService } from "../../dependency/user.dependency";
 import { User } from "../../db/db.type";
 
 const { signJWT } = handleLogin;

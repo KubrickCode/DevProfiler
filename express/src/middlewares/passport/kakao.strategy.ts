@@ -4,8 +4,8 @@ import {
   handleLogin,
   redis,
   userRepository,
-  userService,
-} from "../../dependency/user.dependency";
+} from "../../dependency/auth.dependency";
+import { userService } from "../../dependency/user.dependency";
 import dotenv from "dotenv";
 import { User } from "../../db/db.type";
 dotenv.config();

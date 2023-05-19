@@ -1,4 +1,4 @@
-export const BackEndSurveyTitle = [
+const BackEndSurveyTitle = [
   "문제 해결 능력(1/5)",
   "기술 지식(2/5)",
   "학습 및 개선 의지(3/5)",
@@ -6,7 +6,7 @@ export const BackEndSurveyTitle = [
   "협업 및 버전 관리(5/5)",
 ];
 
-export const BackEndSurveyData = [
+const BackEndSurveyData = [
   [
     {
       content:
@@ -113,3 +113,5 @@ export const BackEndSurveyData = [
     { content: "코드 리뷰에 자주 참여하시나요?", id: 25 },
   ],
 ];
+
+export { BackEndSurveyTitle, BackEndSurveyData };

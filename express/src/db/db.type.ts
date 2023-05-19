@@ -1,4 +1,4 @@
-export interface User {
+interface User {
   id: number;
   email: string;
   provider: Provider;
@@ -7,12 +7,14 @@ export interface User {
   refreshToken?: string;
 }
 
-export interface Survey {
+interface Survey {
   id?: number;
   user_id: number;
   category: Category;
   response: number[];
 }
 
-export type Provider = "Local" | "Google" | "Kakao";
-export type Category = "FrontEnd" | "BackEnd";
+type Provider = "Local" | "Google" | "Kakao";
+type Category = "FrontEnd" | "BackEnd";
+
+export { User, Survey, Provider, Category };

@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { useQueryGet } from "../../hooks/useQueryFetch";
-import Evaluation from "../Survey/Evaluation";
+import Evaluation from "../Survey/Evaluation/Evaluation";
 import { useConfirmModalStore } from "../../store/ModalStore";
 
-export interface SurveyType {
+interface SurveyType {
   id: number;
   user_id: number;
   category: string;
@@ -92,4 +92,5 @@ const MyPage: FC = () => {
   );
 };
 
+export type { SurveyType };
 export default MyPage;

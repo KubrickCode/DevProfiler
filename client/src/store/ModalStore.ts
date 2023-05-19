@@ -35,14 +35,16 @@ const confirmModalStore: StateCreator<ConfirmModalStoreType> = (set) => ({
     })),
 });
 
-export const useAuthModalStore = create<AuthModalStoreType>(
+const useAuthModalStore = create<AuthModalStoreType>(
   devtools(authModalStore) as unknown as StateCreator<AuthModalStoreType>
 );
 
-export const useSettingModalStore = create<SettingModalStoreType>(
+const useSettingModalStore = create<SettingModalStoreType>(
   devtools(settingModalStore) as unknown as StateCreator<SettingModalStoreType>
 );
 
-export const useConfirmModalStore = create<ConfirmModalStoreType>(
+const useConfirmModalStore = create<ConfirmModalStoreType>(
   devtools(confirmModalStore) as unknown as StateCreator<ConfirmModalStoreType>
 );
+
+export { useAuthModalStore, useSettingModalStore, useConfirmModalStore };

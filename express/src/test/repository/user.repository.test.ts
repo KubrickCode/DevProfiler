@@ -1,6 +1,5 @@
-import { Provider } from "../../db/db.type";
 import { startServer } from "../..";
-import { userRepository } from "../../dependency/user.dependency";
+import { userRepository } from "../../dependency/auth.dependency";
 import { deleteUserRepositorySuccess } from "./user/deleteUser.repository.helper";
 import { updateUserRepositorySuccess } from "./user/updateUser.repository.helper";
 
@@ -29,18 +28,6 @@ describe("UserRepository", () => {
 
     expect(user?.id).toEqual(42);
     expect(user?.email).toEqual(mockEmail);
-  });
-
-  it("createUserRepository", async () => {
-    const mockUser = {
-      email: "test@test.com",
-      password: "test1234!@",
-      provider: "Local" as Provider,
-    };
-    const user = await userRepository.create(mockUser);
-
-    expect(user.email).toEqual(mockUser.email);
-    expect(user.password).toEqual(mockUser.password);
   });
 
   it("updateUserRepository", async () => {

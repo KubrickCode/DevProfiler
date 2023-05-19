@@ -3,13 +3,13 @@ import { useQueryGet } from "../../hooks/useQueryFetch";
 import { Link } from "react-router-dom";
 import { useSettingModalStore } from "../../store/ModalStore";
 
-interface ownProps {
+interface OwnProps {
   open: boolean;
   setOpen(open: boolean): void;
   buttonRef: React.RefObject<HTMLButtonElement>;
 }
 
-const DropDown: FC<ownProps> = ({ open, setOpen, buttonRef }) => {
+const DropDown: FC<OwnProps> = ({ open, setOpen, buttonRef }) => {
   const isLogin = localStorage.getItem("token") ? true : false;
   const dropdownRef = useRef<HTMLDivElement>(null);
   const { data } = useQueryGet("/user", "getUser", { enabled: !!isLogin });

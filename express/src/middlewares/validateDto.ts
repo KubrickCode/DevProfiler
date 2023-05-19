@@ -2,9 +2,7 @@ import { validate } from "class-validator";
 import { plainToClass } from "class-transformer";
 import { RequestHandler } from "express";
 
-export const validateBody = <T extends object>(
-  type: new () => T
-): RequestHandler => {
+const validateBody = <T extends object>(type: new () => T): RequestHandler => {
   return async (req, res, next) => {
     const dtoInstance = plainToClass(type, req.body);
     const errors = await validate(dtoInstance, { whitelist: true });
@@ -19,3 +17,5 @@ export const validateBody = <T extends object>(
     }
   };
 };
+
+export { validateBody };

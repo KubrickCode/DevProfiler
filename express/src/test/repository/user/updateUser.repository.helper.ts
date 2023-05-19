@@ -1,7 +1,7 @@
-import { userRepository } from "../../../dependency/user.dependency";
-import { handdlePassword } from "../../../dependency/user.dependency";
+import { userRepository } from "../../../dependency/auth.dependency";
+import { handdlePassword } from "../../../dependency/auth.dependency";
 
-export const updateUserRepositorySuccess = async () => {
+const updateUserRepositorySuccess = async () => {
   const mockData = {
     id: 42,
     password: "test1234!@",
@@ -13,3 +13,5 @@ export const updateUserRepositorySuccess = async () => {
     handdlePassword.comparePassword(mockData.password, result.password!)
   ).toBeTruthy();
 };
+
+export { updateUserRepositorySuccess };

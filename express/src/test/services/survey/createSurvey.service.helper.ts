@@ -1,7 +1,7 @@
 import { Category } from "../../../db/db.type";
 import { surveyService } from "../../../dependency/survey.dependency";
 
-export const createSurveyServiceSuccess = async () => {
+const createSurveyServiceSuccess = async () => {
   const mockData = {
     user_id: 42,
     category: "FrontEnd",
@@ -19,3 +19,5 @@ export const createSurveyServiceSuccess = async () => {
   expect(survey.category).toEqual(mockData.category);
   expect(survey.response).toEqual(mockData.response);
 };
+
+export { createSurveyServiceSuccess };

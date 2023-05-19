@@ -1,25 +1,11 @@
 // user.route.test.ts
 import request from "supertest";
 import { app } from "../..";
-import { redis } from "../../dependency/user.dependency";
 import { checkPasswordRouteSuccess } from "./user/checkPassword.route.helper";
 import { updateUserRouteSuccess } from "./user/updateUser.route.helper";
-import { createUserRouteSuccess } from "./user/createUser.route.helper";
 import { deleteUserRouteSuccess } from "./user/deleteUser.route.helper";
 
 describe("/api/user", () => {
-  beforeAll(async () => {
-    await redis.connect();
-  });
-
-  afterAll(() => {
-    redis.disconnect();
-  });
-
-  describe.only("createUserRoute", () => {
-    it("createUserRouteSuccess", createUserRouteSuccess);
-  });
-
   describe("checkPasswordRoute", () => {
     it("checkPasswordRouteSuccess", checkPasswordRouteSuccess);
   });
@@ -41,28 +27,6 @@ describe("/api/user", () => {
 
     expect(res.body).toHaveProperty("id");
     expect(res.body).toHaveProperty("email");
-  });
-
-  it("refreshTokenRoute", async () => {
-    const refreshToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg1MzU5ODQ1fQ.9Tf6uz48i2-bJzaG2NUlXry8AL3moRMT1jc05dyUnpU";
-    const res = await request(app)
-      .get("/api/user/refresh")
-      .set("x-refresh-token", refreshToken);
-
-    expect(res.body).toHaveProperty("token");
-  });
-
-  it("loginRoute", async () => {
-    const res = await request(app)
-      .post("/api/user/login")
-      .send({ email: "test@gmail.com", password: "test1234!@" });
-
-    console.log(res.body.token);
-
-    expect(res.statusCode).toEqual(201);
-    expect(res.body).toHaveProperty("refreshToken");
-    expect(res.body).toHaveProperty("token");
   });
 
   it("updateUserRoute", async () => {

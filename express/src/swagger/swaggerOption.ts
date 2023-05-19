@@ -45,6 +45,10 @@ const swaggerOptions = {
     },
     tags: [
       {
+        name: "Auth",
+        description: "인증 정보 관련 API",
+      },
+      {
         name: "User",
         description: "유저 정보 관련 API",
       },
@@ -57,4 +61,6 @@ const swaggerOptions = {
   apis: ["./**/*.yaml"],
 };
 
-export const swaggerSpecs = swaggerJsDoc(swaggerOptions);
+const swaggerSpecs = swaggerJsDoc(swaggerOptions);
+
+export { swaggerSpecs };
