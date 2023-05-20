@@ -1,14 +1,27 @@
 import request from "supertest";
 import { app } from "../../../..";
 
+import { authService } from "../../../../dependency/auth.dependency";
+
+const mockNewToken = "mockNewToken";
+
 const refreshTokenRouteSuccess = async () => {
-  const refreshToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg1MzU5ODQ1fQ.9Tf6uz48i2-bJzaG2NUlXry8AL3moRMT1jc05dyUnpU";
+  authService.refreshTokenService = jest.fn().mockResolvedValue(mockNewToken);
   const res = await request(app)
     .get("/api/auth/refresh")
-    .set("x-refresh-token", refreshToken);
+    .set("x-refresh-token", "mockOldToken");
 
-  expect(res.body).toHaveProperty("token");
+  expect(res.statusCode).toEqual(201);
+  expect(res.body.token).toEqual(mockNewToken);
 };
 
-export { refreshTokenRouteSuccess };
+const refreshTokenRouteFailed = async () => {
+  authService.refreshTokenService = jest.fn().mockRejectedValue(new Error());
+  const res = await request(app)
+    .get("/api/auth/refresh")
+    .set("x-refresh-token", "mockOldToken");
+
+  expect(res.statusCode).toEqual(401);
+};
+
+export { refreshTokenRouteSuccess, refreshTokenRouteFailed };

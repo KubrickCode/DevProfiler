@@ -1,15 +1,26 @@
 import request from "supertest";
 import { app } from "../../../..";
 
-const getUserRouteSucess = async () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAdGVzdC5jb20iLCJpZCI6MzksImlhdCI6MTY4NDE1MDI0NSwiZXhwIjoxNjg0MTUzODQ1fQ.WD5vuYSEiXiE22MFnWQAKMoR0wRPfLOikfbfoTW0kJo";
-  const res = await request(app)
-    .get("/api/user")
-    .set("Authorization", `Bearer ${token}`);
+import { userService } from "../../../../dependency/user.dependency";
 
-  expect(res.body).toHaveProperty("id");
-  expect(res.body).toHaveProperty("email");
+const mockUser = {
+  id: 1,
+  email: "test@gmail.com",
+  provider: "Local",
 };
 
-export { getUserRouteSucess };
+const getUserRouteSucess = async () => {
+  userService.getUserService = jest.fn().mockResolvedValue(mockUser);
+  const res = await request(app).get("/api/user");
+
+  expect(res.body).toEqual(mockUser);
+};
+
+const getUserRouteFailed = async () => {
+  userService.getUserService = jest.fn().mockRejectedValue(new Error());
+  const res = await request(app).get("/api/user");
+
+  expect(res.statusCode).toEqual(404);
+};
+
+export { getUserRouteSucess, getUserRouteFailed };

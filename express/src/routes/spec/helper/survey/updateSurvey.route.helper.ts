@@ -1,22 +1,22 @@
 import request from "supertest";
 import { app } from "../../../..";
 
+import { surveyService } from "../../../../dependency/survey.dependency";
+
 const updateSurveyRouteSuccess = async () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOjQyLCJpYXQiOjE2ODQyMjI1MzksImV4cCI6MTY4NDIyNjEzOX0.pv5jfm7bKEFIJTP3rCIsNi-yxIhVz-yHZTM3I2TmmKg";
-  const res = await request(app)
-    .patch("/api/survey")
-    .set("Authorization", `Bearer ${token}`)
-    .send({
-      id: 13,
-      response: [
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0,
-      ],
-    });
+  surveyService.updateSurveyService = jest.fn().mockResolvedValue(true);
+  const res = await request(app).patch("/api/survey");
 
   expect(res.statusCode).toEqual(201);
   expect(res.body).toHaveProperty("message");
 };
 
-export { updateSurveyRouteSuccess };
+const updateSurveyRouteFailed = async () => {
+  surveyService.updateSurveyService = jest.fn().mockRejectedValue(new Error());
+  const res = await request(app).patch("/api/survey");
+
+  expect(res.statusCode).toEqual(403);
+  expect(res.body).toHaveProperty("message");
+};
+
+export { updateSurveyRouteSuccess, updateSurveyRouteFailed };

@@ -28,15 +28,13 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
       if (err) {
         return next(err);
       }
-
       if (!user) {
         if (info.name === "TokenExpiredError") {
-          return res.status(401).send({ message: "Token has expired" });
+          throw "토큰이 만료되었습니다";
         } else {
-          return res.status(401).send({ message: "Wrong token format" });
+          throw "잘못된 토큰 형식입니다";
         }
       }
-
       req.user = user;
       return next();
     }

@@ -4,6 +4,10 @@ import SurveyRepository from "../db/repository/survey.repository";
 class SurveyService {
   constructor(private surveyRepository: SurveyRepository) {}
 
+  getSurveyService = async (user_id: number) => {
+    return await this.surveyRepository.get(user_id);
+  };
+
   createSurveyService = async (
     user_id: number,
     category: Category,
@@ -14,10 +18,6 @@ class SurveyService {
 
   deleteSurveyService = async (id: number) => {
     return await this.surveyRepository.delete(id);
-  };
-
-  getSurveyService = async (user_id: number) => {
-    return await this.surveyRepository.get(user_id);
   };
 
   updateSurveyService = async (id: number, response: number[]) => {

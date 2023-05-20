@@ -1,15 +1,21 @@
 import request from "supertest";
 import { app } from "../../../..";
 
+import { userService } from "../../../../dependency/user.dependency";
+
 const deleteUserRouteSuccess = async () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOjQ1LCJpYXQiOjE2ODQyMzc2MDQsImV4cCI6MTY4NDI0MTIwNH0.zNFVBSejJXTgRIa83djPkBRhWZs_oDNi0f3f2LPzySM";
-  const res = await request(app)
-    .delete("/api/user")
-    .set("Authorization", `Bearer ${token}`);
+  userService.deleteUserService = jest.fn().mockResolvedValue(true);
+  const res = await request(app).delete("/api/user");
 
   expect(res.statusCode).toEqual(201);
   expect(res.body).toHaveProperty("message");
 };
 
-export { deleteUserRouteSuccess };
+const deleteUserRouteFailed = async () => {
+  userService.deleteUserService = jest.fn().mockRejectedValue(new Error());
+  const res = await request(app).delete("/api/user");
+
+  expect(res.statusCode).toEqual(404);
+};
+
+export { deleteUserRouteSuccess, deleteUserRouteFailed };

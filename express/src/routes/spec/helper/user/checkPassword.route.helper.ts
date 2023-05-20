@@ -1,17 +1,26 @@
 import request from "supertest";
 import { app } from "../../../..";
 
-const checkPasswordRouteSuccess = async () => {
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWQiOjQyLCJpYXQiOjE2ODQyMzUzMzgsImV4cCI6MTY4NDIzODkzOH0.VsV4ERTtK3BhJWymJ4PqNIy7NWLv2w6F333r7lLkets";
-  const res = await request(app)
-    .post("/api/user/check-password")
-    .set("Authorization", `Bearer ${token}`)
-    .send({
-      password: "",
-    });
+import { userService } from "../../../../dependency/user.dependency";
 
-  expect(res).toBeTruthy();
+const checkPasswordRouteSuccess = async () => {
+  userService.checkPasswordService = jest.fn().mockResolvedValue(true);
+
+  const res = await request(app).post("/api/user/check-password").send({
+    password: "test",
+  });
+
+  expect(res.body.message).toEqual("비밀번호 확인 성공");
 };
 
-export { checkPasswordRouteSuccess };
+const checkPasswordRouteFailed = async () => {
+  userService.checkPasswordService = jest.fn().mockRejectedValue(new Error());
+
+  const res = await request(app).post("/api/user/check-password").send({
+    password: "test",
+  });
+
+  expect(res.statusCode).toEqual(404);
+};
+
+export { checkPasswordRouteSuccess, checkPasswordRouteFailed };

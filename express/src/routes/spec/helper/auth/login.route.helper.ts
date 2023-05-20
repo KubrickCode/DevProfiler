@@ -1,16 +1,29 @@
 import request from "supertest";
 import { app } from "../../../..";
 
-const loginRouteSuccess = async () => {
-  const res = await request(app)
-    .post("/api/auth/login")
-    .send({ email: "test@gmail.com", password: "test1234!@" });
+import { authService } from "../../../../dependency/auth.dependency";
 
-  console.log(res.body.token);
-
-  expect(res.statusCode).toEqual(201);
-  expect(res.body).toHaveProperty("refreshToken");
-  expect(res.body).toHaveProperty("token");
+const mockToken = {
+  token: "token",
+  refreshToken: "refreshToken",
 };
 
-export { loginRouteSuccess };
+const loginRouteSuccess = async () => {
+  authService.loginService = jest.fn().mockResolvedValue(mockToken);
+
+  const res = await request(app).post("/api/auth/login");
+
+  expect(res.statusCode).toEqual(201);
+  expect(res.body).toEqual(mockToken);
+};
+
+const loginRouteFailed = async () => {
+  authService.loginService = jest.fn().mockRejectedValue(new Error());
+
+  const res = await request(app).post("/api/auth/login");
+
+  expect(res.statusCode).toEqual(404);
+  expect(res.body).toHaveProperty("message");
+};
+
+export { loginRouteSuccess, loginRouteFailed };

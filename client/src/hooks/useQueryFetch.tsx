@@ -41,7 +41,7 @@ api.interceptors.response.use(
     }
 
     try {
-      const response = await api.post("/auth/refresh", null, {
+      const response = await api.get("/auth/refresh", {
         headers: { "x-refresh-token": refreshToken },
       });
 

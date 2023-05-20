@@ -66,7 +66,7 @@ const Login: FC = () => {
           await queryClient.invalidateQueries("getSurvey");
         },
         onError: (err) => {
-          if (err instanceof AxiosError) setErrMsg(err.response?.data);
+          if (err instanceof AxiosError) setErrMsg(err.response?.data.message);
         },
       }
     );
