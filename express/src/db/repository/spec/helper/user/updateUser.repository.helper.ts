@@ -3,7 +3,7 @@ import { handdlePassword } from "../../../../../dependency/auth.dependency";
 
 const updateUserRepositorySuccess = async () => {
   const mockData = {
-    id: 42,
+    id: 8,
     password: "test1234!@",
   };
   const hashedPassword = await handdlePassword.hashPassword(mockData.password);

@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 class UserRepository {
   getUserByEmail = async (email: string) => {
     const result = await prisma.user.findFirst({ where: { email } });
-    if (!result) throw "존재하지 않는 계정입니다";
+    if (!result) throw new Error("존재하지 않는 계정입니다");
     return result;
   };
 
