@@ -6,4 +6,9 @@ const deleteSurveyRepositorySuccess = async () => {
   expect(survey.id).toEqual(mockId);
 };
 
-export { deleteSurveyRepositorySuccess };
+const deleteSurveyRepositoryFailed = async () => {
+  const mockId = 13;
+  await expect(surveyRepository.delete(mockId)).rejects.toThrow();
+};
+
+export { deleteSurveyRepositorySuccess, deleteSurveyRepositoryFailed };
