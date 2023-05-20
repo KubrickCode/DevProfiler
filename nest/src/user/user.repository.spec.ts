@@ -11,7 +11,7 @@ describe('UserRepository', () => {
     userRepository = new UserRepository(prismaService);
   });
 
-  it('createUserRepository', async () => {
+  it('create user repo', async () => {
     const mockData: Partial<User> = {
       email: 'test@test.test',
       provider: 'Local',
@@ -26,13 +26,13 @@ describe('UserRepository', () => {
     expect(result.provider).toEqual(mockData.provider);
   });
 
-  it('getUserByEmailRepository', async () => {
+  it('get user by email repo', async () => {
     const mockEmail = 'test@test.test';
     const result = await userRepository.getUserByEmail(mockEmail);
     expect(result.email).toEqual(mockEmail);
   });
 
-  it('updateUserRepository', async () => {
+  it('update user repo', async () => {
     const mockData: Partial<User> = {
       id: 2,
       password: 'test1234!@',
@@ -41,7 +41,7 @@ describe('UserRepository', () => {
     expect(result.id).toEqual(mockData.id);
   });
 
-  it('deleteUserRepository', async () => {
+  it('delete user repo', async () => {
     const mockId = 2;
     const result = await userRepository.delete(mockId);
     expect(result.id).toEqual(mockId);
