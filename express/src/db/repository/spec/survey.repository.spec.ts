@@ -37,7 +37,7 @@ describe("SurveyRepository", () => {
     it("deleteSurveyRepositoryFailed", deleteSurveyRepositoryFailed);
   });
 
-  describe.only("deleteAllSurveyByUserRepository", () => {
+  describe("deleteAllSurveyByUserRepository", () => {
     it(
       "deleteAllSurveyByUserRepositorySuccess",
       deleteAllSurveyByUserRepositorySuccess
