@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int      @id @default(autoincrement())
+  email    String   @unique @db.VarChar(255)
+  password String?  @db.VarChar(255)
+  provider Provider
+  surveys  Survey[]
+}
+
+model Survey {
+  id      Int    @id @default(autoincrement())
+  user_id  Int
+  user    User  @relation(fields: [user_id], references: [id])
+  category Category
+  response Int[]
+}
+
+enum Provider {
+  Local
+  Google
+  Kakao
+  Github
+}
+
+enum Category {
+  FrontEnd
+  BackEnd
+}
