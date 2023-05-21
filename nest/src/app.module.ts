@@ -15,7 +15,6 @@ import { RedisModule } from './redis/redis.module';
     ConfigModule.forRoot({
       cache: true,
       isGlobal: true,
-      envFilePath: './nest/.env',
     }),
     RedisModule,
   ],
