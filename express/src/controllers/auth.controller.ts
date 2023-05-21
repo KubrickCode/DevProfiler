@@ -6,35 +6,50 @@ dotenv.config();
 class AuthController {
   constructor(private authService: AuthService) {}
 
-  loginController = async (req: Request, res: Response) => {
-    const { email, password } = req.body;
-    const result = await this.authService.loginService(email, password);
-    if (result.message) {
-      res.status(404).json(result.message);
-    } else {
+  createUserController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const result = await this.authService.createUserService(req.body);
       res.status(201).json(result);
+    } catch (error) {
+      next({
+        status: 404,
+        message: error,
+      });
     }
   };
 
-  createUserController = async (req: Request, res: Response) => {
-    const result = await this.authService.createUserService(req.body);
-    if (result.message) {
-      res.status(404).json(result.message);
-    } else {
+  loginController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
+      const result = await this.authService.loginService(email, password);
       res.status(201).json(result);
+    } catch (error) {
+      next({
+        status: 404,
+        message: error,
+      });
     }
   };
 
-  refreshTokenController = async (req: Request, res: Response) => {
-    const newToken = await this.authService.refreshTokenService(
-      req.headers["x-refresh-token"] as string
-    );
-    if (!newToken) {
-      return res
-        .status(401)
-        .json({ message: "리프레쉬 토큰이 만료되었습니다" });
-    } else {
+  refreshTokenController = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const newToken = await this.authService.refreshTokenService(
+        req.headers["x-refresh-token"] as string
+      );
       res.status(201).json({ token: newToken });
+    } catch (error) {
+      next({
+        status: 401,
+        message: error,
+      });
     }
   };
 

@@ -38,14 +38,14 @@ class HandleLogin {
     return new Promise((resolve, reject) => {
       jwt.verify(refreshToken, refreshSecret, async (err, user) => {
         if (err) {
-          return resolve(false);
+          return reject("리프레쉬 토큰이 만료되었습니다");
         }
 
         const { id, email, provider } = user as User;
         const existingRefreshToken = await this.redis.getRefreshToken(id);
 
         if (!existingRefreshToken || existingRefreshToken !== refreshToken) {
-          return resolve(false);
+          return reject("잘못된 토큰 요청입니다");
         }
 
         const payload = { id, email, provider };
@@ -58,14 +58,14 @@ class HandleLogin {
   loginAuthenticate = async (email: string, password: string) => {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
-      return { message: "존재하지 않는 계정입니다" };
+      throw "존재하지 않는 계정입니다";
     }
     const comparePasswordResult = await this.handlePassword.comparePassword(
       password,
       user?.password as string
     );
     if (!comparePasswordResult) {
-      return { message: "비밀번호가 일치하지 않습니다" };
+      throw "비밀번호가 일치하지 않습니다";
     }
     const { id } = user as User;
     const { token, refreshToken } = this.signJWT({

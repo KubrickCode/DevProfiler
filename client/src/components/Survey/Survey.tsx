@@ -57,9 +57,8 @@ const Survey: FC = () => {
     setSurveyState("complete");
     if (isLogin) {
       if (
-        getResponse
-          ?.map((item: SurveyType) => item.category)
-          .indexOf(surveyType) === 0
+        getResponse.filter((item: SurveyType) => item.category === surveyType)
+          .length > 0
       ) {
         setConfirmModalState(true, "updateSurvey");
       } else {

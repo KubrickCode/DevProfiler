@@ -66,7 +66,7 @@ const Login: FC = () => {
           await queryClient.invalidateQueries("getSurvey");
         },
         onError: (err) => {
-          if (err instanceof AxiosError) setErrMsg(err.response?.data);
+          if (err instanceof AxiosError) setErrMsg(err.response?.data.message);
         },
       }
     );
@@ -78,7 +78,7 @@ const Login: FC = () => {
       sessionStorage.setItem("surveyType", JSON.stringify(surveyType));
       sessionStorage.setItem("surveyResponse", JSON.stringify(surveyResponse));
     }
-    location.href = `${host}/auth/${link}`;
+    location.href = `${host}/auth/${link}/callback`;
   };
 
   return (

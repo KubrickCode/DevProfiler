@@ -71,36 +71,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
-
-```
-test-nest
-├─ .eslintrc.js
-├─ .prettierrc
-├─ nest-cli.json
-├─ package-lock.json
-├─ package.json
-├─ prisma
-│  ├─ migrations
-│  │  ├─ 20230508040918_init
-│  │  │  └─ migration.sql
-│  │  └─ migration_lock.toml
-│  └─ schema.prisma
-├─ README.md
-├─ src
-│  ├─ app.module.ts
-│  ├─ boards
-│  │  ├─ boards.controller.ts
-│  │  ├─ boards.module.ts
-│  │  ├─ boards.repository.ts
-│  │  ├─ boards.service.ts
-│  │  ├─ dto
-│  │  │  └─ create-board.dto.ts
-│  │  └─ pipes
-│  │     └─ board-status-validation.pipe.ts
-│  ├─ main.ts
-│  └─ prisma.service.ts
-├─ tsconfig.build.json
-├─ tsconfig.json
-└─ yarn.lock
-
-```

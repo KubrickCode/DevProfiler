@@ -11,9 +11,6 @@ class UserService {
 
   getUserService = async (_email: string) => {
     const result = await this.userRepository.getUserByEmail(_email);
-    if (!result) {
-      return null;
-    }
     const { id, email, provider } = result as User;
     return { id, email, provider };
   };
@@ -30,7 +27,12 @@ class UserService {
 
   checkPasswordService = async (email: string, password: string) => {
     const user = await this.userRepository.getUserByEmail(email);
-    return await this.handlePassword.comparePassword(password, user?.password!);
+    const result = await this.handlePassword.comparePassword(
+      password,
+      user?.password!
+    );
+    if (!result) throw "기존 비밀번호를 확인하세요";
+    return result;
   };
 }
 
