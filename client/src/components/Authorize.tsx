@@ -40,6 +40,8 @@ const Authorize = () => {
           sessionStorage.removeItem("surveyResponse");
           location.href = "/my-page";
         }
+      } else {
+        location.href = "/";
       }
     },
   });

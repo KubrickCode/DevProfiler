@@ -11,10 +11,10 @@ describe('SurveyRepository', () => {
     surveyRepository = new SurveyRepository(prismaService);
   });
 
-  it('createSurveyRepository', async () => {
+  it.only('createSurveyRepository', async () => {
     const mockData: Omit<Survey, 'id'> = {
-      user_id: 3,
-      category: 'BackEnd',
+      user_id: 6,
+      category: 'FrontEnd',
       response: Array(25).fill(3),
     };
     const result = await surveyRepository.create(mockData);

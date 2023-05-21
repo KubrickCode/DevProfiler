@@ -5,8 +5,9 @@
   "license": "MIT",
   "scripts": {
     "server:express": "cd express && yarn dev",
+    "server:nest": "cd nest && yarn dev",
     "client": "cd client && yarn dev",
-    "dev": "concurrently --kill-others-on-fail \"yarn server:express\" \"yarn client\""
+    "dev": "concurrently --kill-others-on-fail \"yarn server:nest\" \"yarn client\""
   },
   "devDependencies": {
     "concurrently": "^8.0.1"

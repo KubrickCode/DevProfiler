@@ -8,9 +8,6 @@ import {
 } from 'class-validator';
 
 class CreateSurveyDto {
-  @IsInt()
-  user_id?: number;
-
   @IsIn([Category.FrontEnd, Category.BackEnd])
   category: Category;
 

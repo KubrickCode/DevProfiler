@@ -13,9 +13,7 @@ export class UserRepository {
   };
 
   getUserByEmail = async (email: string) => {
-    const result = await this.prisma.user.findFirst({ where: { email } });
-    if (!result) throw new Error('존재하지 않는 계정입니다');
-    return result;
+    return await this.prisma.user.findFirst({ where: { email } });
   };
 
   update = async (id: number, password: string) => {

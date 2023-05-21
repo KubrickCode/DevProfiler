@@ -78,7 +78,7 @@ const Login: FC = () => {
       sessionStorage.setItem("surveyType", JSON.stringify(surveyType));
       sessionStorage.setItem("surveyResponse", JSON.stringify(surveyResponse));
     }
-    location.href = `${host}/auth/${link}`;
+    location.href = `${host}/auth/${link}/callback`;
   };
 
   return (

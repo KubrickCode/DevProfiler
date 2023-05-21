@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { SurveyRepository } from './survey.repository';
 import { CreateSurveyDto } from './survey.dto';
 import { UpdateSurveyDto } from './survey.dto';
@@ -11,19 +11,22 @@ export class SurveyService {
     return await this.surveyRepository.get(user_id);
   };
 
-  createSurveyService = async (survey: CreateSurveyDto) => {
-    return await this.surveyRepository.create(survey);
-  };
+  async createSurveyService(user_id: number, createSurveyDto: CreateSurveyDto) {
+    return await this.surveyRepository.create(user_id, createSurveyDto);
+  }
 
   deleteSurveyService = async (id: number) => {
-    return await this.surveyRepository.delete(id);
+    const result = await this.surveyRepository.delete(id);
+    if (!result) {
+      throw new NotFoundException('검사 결과가 없습니다');
+    }
   };
 
-  updateSurveyService = async (survey: UpdateSurveyDto) => {
-    return await this.surveyRepository.update(survey);
-  };
-
-  deleteAllByUserId = async (user_id: number) => {
-    return await this.surveyRepository.deleteAllByUserId(user_id);
-  };
+  async updateSurveyService(updateSurveyDto: UpdateSurveyDto) {
+    const { id, response } = updateSurveyDto;
+    const survey = await this.surveyRepository.update({ id, response });
+    if (!survey) {
+      throw new NotFoundException('검사 결과가 없습니다');
+    }
+  }
 }
