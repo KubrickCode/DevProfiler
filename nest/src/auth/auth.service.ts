@@ -39,6 +39,7 @@ export class AuthService {
   };
 
   login = async (user: Pick<User, 'id' | 'email'>) => {
+    console.log('Secret at login method:', process.env.JWT_SECRET);
     const payload = { username: user.email, sub: user.id };
     const token = this.jwtService.sign(payload, { expiresIn: '1h' });
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '2w' });
