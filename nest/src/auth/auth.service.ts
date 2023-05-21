@@ -2,7 +2,6 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserRepository } from '../user/user.repository';
 import { HandlePassword } from '../integrations/handlePassword';
-
 import { UserDto } from '../user/user.dto';
 import { RedisService } from '../redis/redis.service';
 import { DecodedToken } from './interfaces/DecodeToken.interface';
