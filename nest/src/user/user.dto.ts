@@ -1,10 +1,8 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, Length, Matches, IsString } from 'class-validator';
 
-class UserDto {
-  @IsEmail({}, { message: '이메일 형식을 확인하세요' })
-  @Length(5, 255, { message: '이메일은 5자 이상 255자 이하로 입력하세요' })
-  email: string;
-
+class UpdateUserDto {
+  @ApiProperty()
   @IsString({ message: '비밀번호 형식을 확인하세요' })
   @Matches(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,20}$/, {
     message: '비밀번호 형식을 확인하세요(영문+숫자+특수문자)',
@@ -13,4 +11,11 @@ class UserDto {
   password: string;
 }
 
-export { UserDto };
+class UserDto extends UpdateUserDto {
+  @ApiProperty()
+  @IsEmail({}, { message: '이메일 형식을 확인하세요' })
+  @Length(5, 255, { message: '이메일은 5자 이상 255자 이하로 입력하세요' })
+  email: string;
+}
+
+export { UpdateUserDto, UserDto };

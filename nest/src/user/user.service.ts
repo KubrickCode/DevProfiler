@@ -14,7 +14,7 @@ export class UserService {
   async getUser(email: string) {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('유저 조회 실패');
     }
     return { id: user.id, email: user.email, provider: user.provider };
   }
@@ -32,14 +32,14 @@ export class UserService {
   async checkPassword(email: string, password: string) {
     const user = await this.userRepository.getUserByEmail(email);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException('유저 조회 실패');
     }
     const result = await this.handlePassword.comparePassword(
       password,
       user.password,
     );
     if (!result) {
-      throw new NotFoundException('Incorrect password');
+      throw new NotFoundException('비밀번호가 일치하지 않습니다');
     }
   }
 }

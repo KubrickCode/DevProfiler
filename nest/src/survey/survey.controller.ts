@@ -14,7 +14,8 @@ import { CreateSurveyDto } from './survey.dto';
 import { UpdateSurveyDto } from './survey.dto';
 import { JwtAuthGuard } from '../auth/passport/jwt.guard';
 import { RequestUser } from '../auth/interfaces/RequestUser.interface';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Survey')
 @Controller('survey')
 @UseGuards(JwtAuthGuard)
 export class SurveyController {

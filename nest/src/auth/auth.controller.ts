@@ -13,7 +13,8 @@ import { UserDto } from '../user/user.dto';
 import { RequestUser } from './interfaces/RequestUser.interface';
 import { GoogleAuthGuard } from './passport/google.guard';
 import { KakaoAuthGuard } from './passport/kakao.guard';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
