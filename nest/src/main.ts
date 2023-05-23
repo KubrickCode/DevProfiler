@@ -24,6 +24,7 @@ const bootstrap = async () => {
     .setTitle('Nest API')
     .setDescription('Nest API를 위한 swagger 문서')
     .setVersion('1.0.0')
+    .addBearerAuth()
     .addTag('Auth', '인증 정보 관련 API')
     .addTag('User', '유저 정보 관련 API')
     .addTag('Survey', '검사 결과 관련 API')
