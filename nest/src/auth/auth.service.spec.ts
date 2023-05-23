@@ -1,78 +1,61 @@
-// import { Test, TestingModule } from '@nestjs/testing';
-// import { AuthService } from './auth.service';
-// import { UnauthorizedException } from '@nestjs/common';
-// import { UserRepository } from '../user/user.repository';
-// import { JwtService } from '@nestjs/jwt';
-// import { RedisService } from '../redis/redis.service';
-// import { HandlePassword } from '../integrations/handlePassword';
+import { Test, TestingModule } from '@nestjs/testing';
+import { AuthService } from './auth.service';
+import { UserRepository } from '../user/user.repository';
+import { JwtService } from '@nestjs/jwt';
+import { RedisService } from '../redis/redis.service';
+import { HandlePassword } from '../integrations/handlePassword';
+import { Provider } from '@prisma/client';
+import { PrismaService } from '../prisma.service';
+import { ConfigService } from '@nestjs/config';
 
-// describe('AuthService', () => {
-//   let service: AuthService;
-//   let userRepository: UserRepository;
-//   let jwtService: JwtService;
-//   let redisService: RedisService;
-//   let handlePassword: HandlePassword;
+describe('AuthService', () => {
+  let service: AuthService;
+  let userRepository: UserRepository;
+  // let jwtService: JwtService;
+  // let redisService: RedisService;
+  let handlePassword: HandlePassword;
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [
-//         AuthService,
-//         UserRepository,
-//         JwtService,
-//         RedisService,
-//         HandlePassword,
-//       ],
-//     }).compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        AuthService,
+        UserRepository,
+        JwtService,
+        RedisService,
+        HandlePassword,
+        PrismaService,
+        ConfigService,
+      ],
+    }).compile();
 
-//     service = module.get<AuthService>(AuthService);
-//     userRepository = module.get<UserRepository>(UserRepository);
-//     jwtService = module.get<JwtService>(JwtService);
-//     redisService = module.get<RedisService>(RedisService);
-//     handlePassword = module.get<HandlePassword>(HandlePassword);
-//   });
+    service = module.get<AuthService>(AuthService);
+    userRepository = module.get<UserRepository>(UserRepository);
+    // jwtService = module.get<JwtService>(JwtService);
+    // redisService = module.get<RedisService>(RedisService);
+    handlePassword = module.get<HandlePassword>(HandlePassword);
+  });
 
-//   afterEach(() => {
-//     jest.resetAllMocks();
-//   });
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
-//   describe('validateUser', () => {
-//     it('should return user when email and password are valid', async () => {
-//       const email = 'test@example.com';
-//       const password = 'password123';
-//       const user = { id: 1, email };
-//       const comparePasswordSpy = jest
-//         .spyOn(handlePassword, 'comparePassword')
-//         .mockImplementation(async () => true);
-//       jest.spyOn(userRepository, 'getUserByEmail').mockResolvedValue(user);
+  describe('validateUser', () => {
+    it('validate User and return id & email', async () => {
+      const mockUser = {
+        id: 1,
+        email: 'test@test.com',
+        password: 'test1234!@',
+        provider: 'Local' as Provider,
+      };
 
-//       const result = await service.validateUser(email, password);
+      jest.spyOn(userRepository, 'getUserByEmail').mockResolvedValue(mockUser); // 이메일 존재여부 확인
+      jest.spyOn(handlePassword, 'comparePassword').mockResolvedValue(true); // 비밀번호 확인
 
-//       expect(comparePasswordSpy).toHaveBeenCalledWith(password, user.password);
-//       expect(result).toEqual({ id: user.id, email: user.email });
-//     });
-
-//     it('should throw UnauthorizedException when email is invalid', async () => {
-//       const email = 'test@example.com';
-//       const password = 'password123';
-//       jest.spyOn(userRepository, 'getUserByEmail').mockResolvedValue(null);
-
-//       await expect(service.validateUser(email, password)).rejects.toThrow(
-//         UnauthorizedException,
-//       );
-//     });
-
-//     it('should throw UnauthorizedException when password is invalid', async () => {
-//       const email = 'test@example.com';
-//       const password = 'password123';
-//       const user = { id: 1, email };
-//       jest.spyOn(userRepository, 'getUserByEmail').mockResolvedValue(user);
-//       jest.spyOn(handlePassword, 'comparePassword').mockResolvedValue(false);
-
-//       await expect(service.validateUser(email, password)).rejects.toThrow(
-//         UnauthorizedException,
-//       );
-//     });
-//   });
-
-//   // Write more test cases for other methods in AuthService
-// });
+      const result = await service.validateUser(
+        mockUser.email,
+        mockUser.password,
+      );
+      expect(result).toEqual({ id: mockUser.id, email: mockUser.email });
+    });
+  });
+});

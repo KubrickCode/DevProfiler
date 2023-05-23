@@ -89,6 +89,7 @@ const Join: FC = () => {
           value={email}
           placeholder="example@email.com"
           onChange={(e) => setEmail(e.target.value)}
+          autoComplete="email"
           className={`border w-full py-2 px-4 rounded-full outline-blue-300 ${
             email && !emailValid && inValidStyle
           }`}
@@ -110,6 +111,7 @@ const Join: FC = () => {
           value={password}
           placeholder="6~20자 영문,숫자,특수문자 혼합"
           onChange={(e) => setPassword(e.target.value)}
+          autoComplete="password"
           className={`border w-full py-2 px-4 rounded-full outline-blue-300 ${
             password && !passwordValid && inValidStyle
           }`}
@@ -131,6 +133,7 @@ const Join: FC = () => {
           value={confirmPassword}
           placeholder="6~20자 영문,숫자,특수문자 혼합"
           onChange={(e) => setConfirmPassword(e.target.value)}
+          autoComplete="confirm-password"
           className={`border w-full py-2 px-4 rounded-full outline-blue-300 ${
             confirmPassword && !confirmPasswordValid && inValidStyle
           }`}

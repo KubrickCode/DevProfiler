@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:docker": "vite --host=0.0.0.0",
     "build": "tsc && vite build",
     "start": "serve -s dist -l 5173",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

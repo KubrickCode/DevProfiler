@@ -95,6 +95,7 @@ const Login: FC = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="border w-full mb-5 py-2 px-4 rounded-full outline-blue-300"
+          autoComplete="email"
         />
       </div>
       <div>
@@ -106,6 +107,7 @@ const Login: FC = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="border w-full mb-5 py-2 px-4 rounded-full outline-blue-300"
+          autoComplete="password"
         />
       </div>
       <div

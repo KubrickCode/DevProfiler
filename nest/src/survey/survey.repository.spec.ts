@@ -11,14 +11,14 @@ describe('SurveyRepository', () => {
     surveyRepository = new SurveyRepository(prismaService);
   });
 
-  it.only('createSurveyRepository', async () => {
-    const mockData: Omit<Survey, 'id'> = {
-      user_id: 6,
+  it('createSurveyRepository', async () => {
+    const mockUserId = 6;
+    const mockData: Pick<Survey, 'category' | 'response'> = {
       category: 'FrontEnd',
       response: Array(25).fill(3),
     };
-    const result = await surveyRepository.create(mockData);
-    expect(result.user_id).toEqual(mockData.user_id);
+    const result = await surveyRepository.create(mockUserId, mockData);
+    expect(result.user_id).toEqual(mockUserId);
     expect(result.category).toEqual(mockData.category);
     expect(result.response).toEqual(mockData.response);
   });
